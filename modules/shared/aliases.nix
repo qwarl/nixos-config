@@ -2,9 +2,10 @@
   environment = {
     shellAliases = {
       cls = "clear";
-      # update = "sudo nix flake update --flake ~/.config/nixos && sudo nixos-rebuild switch --flake ~/.config/nixos#nixos";
       reboot = "sudo reboot now";
       neofetch = "fastfetch";
+      checkbuild = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations";
+      collect_garbage = "sudo nix-collect-garbage -d";
     };
   };
 }

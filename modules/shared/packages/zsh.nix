@@ -84,6 +84,30 @@
                 sudo nixos-rebuild switch --flake ~/.config/nixos#$1
             }
 
+            # Update flake and rebuild system
+            update() {
+              if [[ -z "$1" ]]; then
+                echo "Usage: update system <host>"
+                return 1
+              fi
+
+              sudo nix flake update --flake ~/.config/nixos
+              sudo nixos-rebuild switch --flake ~/.config/nixos#$1
+            }
+
+            # Delete old system generations, keep the latest N
+            clean_build() {
+              if [[ -z "$1" ]]; then
+                echo "Usage: clean_build <number_of_generations_to_keep>"
+                return 1
+              fi
+
+              local keep=$1
+              echo "Deleting old generations, keeping the latest $keep..."
+              sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +$keep
+              sudo nix-collect-garbage -d
+            }
+
             # alias-finder omz plugin
             zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
             zstyle ':omz:plugins:alias-finder' longer yes # disabled by default
