@@ -1,21 +1,24 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    wget
-    fastfetch
-    nixfmt-rfc-style
-    nil
-    wl-clipboard
-    yazi
+    btop
     corepack
     file
-    nodejs
-    python314
-    btop
-    tmux
+    fastfetch
+    floorp
     gcc
-    tree-sitter
     microsoft-edge
+    nil
+    nodejs
+    nixfmt-rfc-style
+    python314
+    rustup
+    tmux
+    tree-sitter
+    unzip
     vscode
+    wget
+    wl-clipboard
+    yazi
   ];
 }

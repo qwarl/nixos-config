@@ -9,6 +9,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/shared/aliases.nix
+    ../../modules/de-wm/kde/system.nix
   ];
 
   # Bootloader.
@@ -132,13 +133,11 @@
   environment.systemPackages = with pkgs; [
     bluez
     git
-    microsoft-edge
-    vscode
   ];
 
   # Set zsh default shell for all users
   programs.zsh.enable = true;
-  users.defaultUserShell =  pkgs.zsh ;
+  users.defaultUserShell = pkgs.zsh;
 
   # Enable flake config
   nix.settings.experimental-features = [
@@ -184,4 +183,11 @@
     ];
     type = "fcitx5";
   };
+
+  # Gpu settings
+  hardware.graphics.enable = true;
+  hardware.amdgpu.opencl.enable = true;
+
+  # Run unpatched dynamic binaries on NixOS. (binaries mason.nvim installed)
+  programs.nix-ld.enable = true;
 }

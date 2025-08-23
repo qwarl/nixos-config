@@ -56,3 +56,18 @@ in
 **Tóm lại:**  
 - Nên dùng cách mới với flake input để quản lý cấu hình ngoài dễ dàng hơn.
 - Đảm bảo truyền đúng `inputs` vào các module cần dùng.
+
+## 4. Xử lý lỗi thường gặp
+
+Nếu khi chạy `nixos-rebuild` gặp lỗi như sau:
+
+```
+error: path '/nix/store/.../modules/de-wm/kde/system.nix' does not exist
+```
+
+Nguyên nhân thường là do bạn chưa thêm file mới vào git.  
+Hãy chạy lệnh sau để thêm file vào git, sau đó rebuild lại:
+
+```sh
+git add <đường-dẫn-file>
+```
