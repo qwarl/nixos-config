@@ -185,9 +185,23 @@
   };
 
   # Gpu settings
-  hardware.graphics.enable = true;
   hardware.amdgpu.opencl.enable = true;
 
   # Run unpatched dynamic binaries on NixOS. (binaries mason.nvim installed)
   programs.nix-ld.enable = true;
+
+  # Mount external drives automatically
+  boot.supportedFilesystems = [ "exfat" ];
+  
+  fileSystems."/mnt/common" = {
+    device = "/dev/disk/by-uuid/D0D6-547A";
+    fsType = "exfat";
+    options = [
+      "uid=1000"
+      "gid=100"
+      "dmask=022"
+      "fmask=022"
+      "nofail"
+    ]; # Optional: set permissions
+  };
 }
