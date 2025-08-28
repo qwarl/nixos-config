@@ -17,6 +17,10 @@
         nerd-fonts.fira-code
         noto-fonts
         noto-fonts-color-emoji
+        noto-fonts-cjk-sans
+        noto-fonts-cjk-sans-static
+        noto-fonts-cjk-serif
+        noto-fonts-cjk-serif-static
       ];
     };
 
