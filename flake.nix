@@ -19,6 +19,14 @@
       url = "github:qwarl/wezterm-config";
       flake = false;
     };
+
+    astal = {
+      url = "github:aylur/astal";
+    };
+
+    ags = {
+      url = "github:aylur/ags";
+    };
   };
 
   outputs =
@@ -45,7 +53,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+              home-manager.sharedModules = [ plasma-manager.homeModules.plasma-manager ];
               home-manager.users.quan = import ./hosts/vm/home.nix;
             }
           ];
@@ -61,8 +69,34 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
-              home-manager.users.kde = import ./hosts/pc/home.nix;
+              home-manager.sharedModules = [
+                {
+                  imports = [
+                    ./modules/pc/home/packages.nix
+                    ./modules/shared/packages
+                  ];
+
+                  batMod = true;
+                  ezaMod = true;
+                  fdMod = true;
+                  fontsMod = true;
+                  fzfMod = true;
+                  gitMod = true;
+                  neovimMod = true;
+                  ripgrepMod = true;
+                  vscodeMod = true;
+                  weztermMod = true;
+                  zoxideMod = true;
+                  zshMod = true;
+                }
+              ];
+              home-manager.users."kde" = {
+                imports = [
+                  ./modules/users/kde.nix
+                  inputs.plasma-manager.homeModules.plasma-manager
+                ];
+              };
+              home-manager.users.hyprland = import ./modules/users/hyprland.nix;
               home-manager.extraSpecialArgs = { inherit inputs; };
             }
           ];

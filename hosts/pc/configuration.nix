@@ -109,17 +109,23 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.kde = {
-    isNormalUser = true;
-    description = "qwarl";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-    packages = with pkgs; [
-      kdePackages.kate
-      #  thunderbird
-    ];
+  users.users = {
+    kde = {
+      isNormalUser = true;
+      description = "de";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+    };
+    hyprland = {
+      isNormalUser = true;
+      description = "wm";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+    };
   };
 
   # Install firefox.
@@ -179,7 +185,7 @@
       fcitx5-bamboo
       fcitx5-gtk
       fcitx5-mozc
-      libsForQt5.fcitx5-chinese-addons
+      fcitx5-chinese-addons
     ];
     type = "fcitx5";
   };
@@ -192,7 +198,7 @@
 
   # Mount external drives automatically
   boot.supportedFilesystems = [ "exfat" ];
-  
+
   fileSystems."/mnt/common" = {
     device = "/dev/disk/by-uuid/D0D6-547A";
     fsType = "exfat";

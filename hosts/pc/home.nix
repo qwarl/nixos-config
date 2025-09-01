@@ -1,4 +1,3 @@
-{ pkgs, ... }:
 {
   imports = [
     ../../modules/pc/home/packages.nix
@@ -11,17 +10,17 @@
     username = "kde";
   };
 
-  batMod = true;
-  ezaMod = true;
-  fcitx5Mod = true;
-  fdMod = true;
-  fontsMod = true;
-  fzfMod = true;
-  gitMod = true;
-  neovimMod = true;
-  ripgrepMod = true;
-  vscodeMod = true;
-  weztermMod = true;
-  zoxideMod = true;
-  zshMod = true;
+  # batMod = true;
+  # ezaMod = true;
+  # fcitx5Mod = true;
+  # fdMod = true;
+  # fontsMod = true;
+  # fzfMod = true;
+  # gitMod = true;
+  # neovimMod = true;
+  # ripgrepMod = true;
+  # vscodeMod = true;
+  # weztermMod = true;
+  # zoxideMod = true;
+  # zshMod = true;
 }
