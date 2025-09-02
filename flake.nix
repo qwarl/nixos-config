@@ -27,6 +27,10 @@
     ags = {
       url = "github:aylur/ags";
     };
+
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+    };
   };
 
   outputs =
@@ -60,6 +64,7 @@
         };
         pc = nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = { inherit inputs; };
 
           modules = [
             ./hosts/pc/configuration.nix

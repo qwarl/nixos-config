@@ -2,7 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -195,6 +200,23 @@
 
   # Run unpatched dynamic binaries on NixOS. (binaries mason.nvim installed)
   programs.nix-ld.enable = true;
+
+  # Enable hyprland
+  programs.hyprland = {
+    enable = true;
+    # set the flake package
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # make sure to also set the portal package, so that they are in sync
+    portalPackage =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
+
+  # Use cachix to speed up hyprland installation
+  nix.settings = {
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+  };
 
   # Mount external drives automatically
   boot.supportedFilesystems = [ "exfat" ];
