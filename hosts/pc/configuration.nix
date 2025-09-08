@@ -232,4 +232,7 @@
       "nofail"
     ]; # Optional: set permissions
   };
+
+  # Make all Electron apps use Wayland instead of XWayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 }

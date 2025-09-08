@@ -20,6 +20,11 @@
       flake = false;
     };
 
+    neovim-config = {
+      url = "github:qwarl/nvim/nuke";
+      flake = false;
+    };
+
     astal = {
       url = "github:aylur/astal";
     };

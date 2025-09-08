@@ -11,7 +11,7 @@
       fcitx5-bamboo
       fcitx5-gtk
       fcitx5-mozc
-      libsForQt5.fcitx5-chinese-addons
+      fcitx5-chinese-addons
     ];
     type = "fcitx5";
     };
