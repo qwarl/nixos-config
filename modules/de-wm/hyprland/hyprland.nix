@@ -1,19 +1,27 @@
+{ lib, config, ... }:
 {
   wayland = {
     windowManager = {
       hyprland = {
         enable = true;
-        environment.sessionVariables.NIXOS_OZONE_WL = "1";
         package = null;
         portalPackage = null;
         settings = {
-          "$mod" = "SUPER";
+          source = [
+            "keybinds.conf"
+            "workspaces.conf"
+          ];
 
+          "$mod" = "SUPER";
+          "$term" = "wezterm";
           bind = [
-            "$mode, RETURN, exec, wezterm"
+            "$mod, Return, exec, $term"
           ];
         };
       };
     };
   };
+
+  xdg.configFile."hypr/keybinds.conf".source = ./hypr/keybinds.conf;
+  xdg.configFile."hypr/workspaces.conf".source = ./hypr/workspaces.conf;
 }

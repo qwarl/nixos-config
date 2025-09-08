@@ -1,6 +1,6 @@
 {
   imports = [
-    ../../modules/pc/home/packages.nix
+    # ../../modules/pc/home/packages.nix
     ../de-wm/hyprland
   ];
   home = {
