@@ -12,6 +12,9 @@
       };
       userEmail = "quannngoc98@gmail.com";
       userName = "qwarl";
+      extraConfig = {
+        safe.directory = "/mnt/common/nixos";
+      };
     };
   };
 }
