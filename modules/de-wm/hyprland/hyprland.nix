@@ -10,12 +10,15 @@
           source = [
             "keybinds.conf"
             "workspaces.conf"
+            "general.conf"
+            "startup.conf"
           ];
 
-          "$mod" = "SUPER";
-          "$term" = "wezterm";
+          "$main" = "SUPER";
+          "$fileManager" = "dolphin";
           bind = [
-            "$mod, Return, exec, $term"
+            "$main SHIFT CTRL ALT, Q, exec, hyprctl dispatch exit"
+            "$main, E, exec, $fileManager"
           ];
         };
       };
@@ -24,4 +27,6 @@
 
   xdg.configFile."hypr/keybinds.conf".source = ./hypr/keybinds.conf;
   xdg.configFile."hypr/workspaces.conf".source = ./hypr/workspaces.conf;
+  xdg.configFile."hypr/general.conf".source = ./hypr/general.conf;
+  xdg.configFile."hypr/startup.conf".source = ./hypr/startup.conf;
 }
