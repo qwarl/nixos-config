@@ -114,22 +114,29 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users = {
-    kde = {
-      isNormalUser = true;
-      description = "de";
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-      ];
+  users = {
+    groups = {
+      shared = { };
     };
-    hyprland = {
-      isNormalUser = true;
-      description = "wm";
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-      ];
+    users = {
+      kde = {
+        isNormalUser = true;
+        description = "de";
+        extraGroups = [
+          "networkmanager"
+          "wheel"
+          "shared"
+        ];
+      };
+      hyprland = {
+        isNormalUser = true;
+        description = "wm";
+        extraGroups = [
+          "networkmanager"
+          "wheel"
+          "shared"
+        ];
+      };
     };
   };
 
@@ -219,20 +226,15 @@
   };
 
   # Mount external drives automatically
-  boot.supportedFilesystems = [ "exfat" ];
-
   fileSystems."/mnt/common" = {
-    device = "/dev/disk/by-uuid/D0D6-547A";
-    fsType = "exfat";
+    device = "/dev/disk/by-uuid/712CC9052F07546A";
+    fsType = "ntfs3";
     options = [
-      "uid=1000"
-      "gid=100"
-      "dmask=022"
-      "fmask=022"
+      "rw"
+      # "uid=1000"
+      # "gid=100"
+      "umask=000"
       "nofail"
-    ]; # Optional: set permissions
+    ];
   };
-
-  # Make all Electron apps use Wayland instead of XWayland
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 }

@@ -5,5 +5,6 @@
     kate
     khelpcenter
     konsole
+    okular
   ];
 }

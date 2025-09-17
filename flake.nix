@@ -79,6 +79,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
               home-manager.sharedModules = [
                 {
                   imports = [
@@ -92,6 +93,7 @@
                   fontsMod = true;
                   fzfMod = true;
                   gitMod = true;
+                  mpvMod = true;
                   neovimMod = true;
                   ripgrepMod = true;
                   vscodeMod = true;
@@ -106,7 +108,7 @@
                   inputs.plasma-manager.homeModules.plasma-manager
                 ];
               };
-              home-manager.users.hyprland = import ./modules/users/hyprland.nix;
+              home-manager.users."hyprland" = import ./modules/users/hyprland.nix;
               home-manager.extraSpecialArgs = { inherit inputs; };
             }
           ];
