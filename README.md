@@ -1,3 +1,17 @@
+# Câu lệnh khi build
+
+## 1. Build bằng configuration
+
+```nix
+sudo nixos-rebuild switch
+```
+
+## 2. Build với flake
+
+```nix
+sudo nixos-rebuild switch --flake .#hostname
+```
+
 # Hướng dẫn sử dụng cấu hình WezTerm từ repo ngoài với Nix Flake
 
 ## 1. Cách cũ: Dùng trực tiếp trong module
