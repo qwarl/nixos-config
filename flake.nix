@@ -25,16 +25,13 @@
       flake = false;
     };
 
-    astal = {
-      url = "github:aylur/astal";
-    };
-
-    ags = {
-      url = "github:aylur/ags";
-    };
-
     hyprland = {
       url = "github:hyprwm/Hyprland";
+    };
+
+    hyprpanel = {
+      url = "github:Jas-SinghFSU/HyprPanel";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
