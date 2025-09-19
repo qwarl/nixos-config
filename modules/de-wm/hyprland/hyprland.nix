@@ -12,6 +12,7 @@
             "workspaces.conf"
             "general.conf"
             "startup.conf"
+            "windowrules.conf"
           ];
 
           "$main" = "SUPER";
@@ -29,4 +30,5 @@
   xdg.configFile."hypr/workspaces.conf".source = ./hypr/workspaces.conf;
   xdg.configFile."hypr/general.conf".source = ./hypr/general.conf;
   xdg.configFile."hypr/startup.conf".source = ./hypr/startup.conf;
+  xdg.configFile."hypr/windowrules.conf".source = ./hypr/windowrules.conf;
 }
