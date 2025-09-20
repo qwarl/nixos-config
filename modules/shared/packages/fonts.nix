@@ -14,7 +14,7 @@
     home = {
       packages = with pkgs; [
         nerd-fonts.caskaydia-mono
-        nerd-fonts.fira-code
+        nerd-fonts.fira-mono
         noto-fonts
         noto-fonts-color-emoji
         noto-fonts-cjk-sans
