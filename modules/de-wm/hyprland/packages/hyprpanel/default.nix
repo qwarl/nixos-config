@@ -1,15 +1,9 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 {
   programs.hyprpanel = {
-    # Configure and theme almost all options from the GUI.
-    # See 'https://hyprpanel.com/configuration/settings.html'.
-    # Default: <same as gui>
+    package = inputs.hyprpanel.packages.${pkgs.system}.default;
     enable = true;
     settings = {
-
-      # Configure bar layouts for monitors.
-      # See 'https://hyprpanel.com/configuration/panel.html'.
-      # Default: null
       layout = {
         bar = {
           layouts = {
@@ -66,7 +60,7 @@
       theme.bar.transparent = true;
 
       theme.font = {
-        name = "CaskaydiaCove NF";
+        name = "FiraMono Nerd Font";
         size = "16px";
       };
     };
