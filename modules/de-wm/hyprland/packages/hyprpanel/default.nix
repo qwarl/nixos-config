@@ -39,7 +39,23 @@
           format = "%a %d %b  %H:%M";
         };
         launcher.autoDetectIcon = true;
-        workspaces.show_icons = true;
+        workspaces = {
+          monitorSpecific = false;
+          showWsIcons = true;
+          workspaceIconMap = {
+            "1" = "一";
+            "2" = "二";
+            "3" = "三";
+            "4" = "四";
+            "5" = "五";
+            "6" = "六";
+            "7" = "七";
+            "8" = "八";
+            "9" = "九";
+            "10" = "十";
+          };
+          workspaces = 10;
+        };
       };
 
       menus.clock = {
@@ -52,10 +68,19 @@
           location = "71210";
           key = "c6d8153da11645dfb7444934251809";
         };
+        media = {
+          displayTimeTooltip = true;
+          displayTime = true;
+        };
+        dashboard = {
+          directories = {
+            enabled = true;
+          };
+          stats = {
+            enable_gpu = false;
+          };
+        };
       };
-
-      menus.dashboard.directories.enabled = false;
-      menus.dashboard.stats.enable_gpu = true;
 
       theme.bar.transparent = true;
 
