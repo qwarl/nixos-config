@@ -1,11 +1,15 @@
+{ pkgs, ... }:
 {
-  imports = [
-    ../de-wm/hyprland
-  ];
+  imports = [ ../de-wm/hyprland ];
   home = {
     homeDirectory = "/home/hyprland";
     stateVersion = "25.05";
     username = "hyprland";
+
+    packages = with pkgs; [
+      wf-recorder
+      hyprshot
+    ];
   };
 
 }
