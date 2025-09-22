@@ -17,9 +17,19 @@
 
           "$main" = "SUPER";
           "$fileManager" = "dolphin";
+          "$time-format" = "$(date +%d-%m-%Y_%H-%M-%S).png";
+          "$save-place" = "~/Pictures/Screenshots/";
+
           bind = [
             "$main SHIFT CTRL ALT, Q, exec, hyprctl dispatch exit"
             "$main, E, exec, $fileManager"
+            ", Print, exec, hyprshot -m active -m output --clipboard-only -o $save-place -f $time-format"
+          ];
+          binds = [
+            "Super_L&SHIFT_L, S, exec, hyprshot -m region --clipboard-only -o $save-place -f $time-format"
+            "Super_L&SHIFT_R, S, exec, hyprshot -m region -o $save-place -f $time-format" # save region capture
+
+            "Shift_R, Print, exec, hyprshot -m active -m output -o $save-place -f $time-format" # save screenshot capture
           ];
         };
       };
