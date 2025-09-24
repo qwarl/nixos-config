@@ -7,8 +7,13 @@
     username = "hyprland";
 
     packages = with pkgs; [
-      wf-recorder
+      grim
       hyprshot
+      kdePackages.dolphin
+      slurp
+      wf-recorder
+      xdg-user-dirs
+      xdg-utils
     ];
   };
 
