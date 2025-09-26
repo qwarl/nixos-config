@@ -8,6 +8,9 @@
         customModules = {
           cava = {
             framerate = 144;
+            bars = 26;
+            leftClick = "menu:media";
+            stereo = true;
           };
           power = {
             leftClick = "menu:power";
@@ -25,7 +28,6 @@
               "windowtitle"
             ];
             middle = [
-              "media"
               "cava"
             ];
             right = [
