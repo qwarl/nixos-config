@@ -10,6 +10,7 @@
       grim
       hyprshot
       kdePackages.dolphin
+      rofi
       slurp
       wf-recorder
       xdg-user-dirs

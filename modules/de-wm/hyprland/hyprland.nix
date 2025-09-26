@@ -23,6 +23,7 @@
           bind = [
             "$main SHIFT CTRL ALT, Q, exec, hyprctl dispatch exit"
             "$main, E, exec, $fileManager"
+            "Alt, Space, exec, rofi -show drun"
             ", Print, exec, hyprshot -m active -m output --clipboard-only -o $save-place -f $time-format"
           ];
           binds = [
