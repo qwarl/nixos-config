@@ -89,6 +89,7 @@
                   fdMod = true;
                   fontsMod = true;
                   fzfMod = true;
+                  ghMod = true;
                   gitMod = true;
                   mpvMod = true;
                   neovimMod = true;

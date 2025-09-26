@@ -7,6 +7,7 @@
     ./fd.nix
     ./fonts.nix
     ./fzf.nix
+    ./gh-cli.nix
     ./git.nix
     ./mpv.nix
     ./neovim.nix
