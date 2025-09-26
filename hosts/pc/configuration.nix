@@ -228,4 +228,15 @@
     info.enable = false;
     nixos.enable = false;
   };
+
+  # Enable hardware accelerated gpu
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      rocmPackages.clr
+    ];
+  };
+
+  boot.initrd.kernelModules = [ "amdgpu" ];
 }
