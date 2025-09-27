@@ -96,6 +96,7 @@
                   ripgrepMod = true;
                   vscodeMod = true;
                   weztermMod = true;
+                  zedMod = true;
                   zoxideMod = true;
                   zshMod = true;
                 }
