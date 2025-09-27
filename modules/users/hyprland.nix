@@ -15,6 +15,8 @@
       wf-recorder
       xdg-user-dirs
       xdg-utils
+
+      kdePackages.polkit-kde-agent-1
     ];
   };
 

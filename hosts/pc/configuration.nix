@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   inputs,
   ...
@@ -237,6 +236,9 @@
       rocmPackages.clr
     ];
   };
-
   boot.initrd.kernelModules = [ "amdgpu" ];
+
+  # config for dolphin on hyprland can open sudo requires folder
+  security.polkit.enable = true;
+
 }
