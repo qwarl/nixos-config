@@ -8,11 +8,14 @@
     fastfetch
     ffmpeg
     floorp-bin
+    gamescope
     gcc
     go  # for hyprls installs
     lazygit
+    lutris
     microsoft-edge
     nil
+    nixd
     nodejs
     nixfmt-rfc-style
     python314
@@ -20,6 +23,7 @@
     rustup
     telegram-desktop
     tmux
+    tokei
     tree-sitter
     unzip
     vscode
@@ -27,5 +31,6 @@
     wl-clipboard
     yazi
     yt-dlp
+
   ];
 }
