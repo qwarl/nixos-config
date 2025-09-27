@@ -14,6 +14,7 @@
     ./ripgrep.nix
     ./vscode.nix
     ./wezterm.nix
+    ./zed.nix
     ./zoxide.nix
     ./zsh.nix
   ];
