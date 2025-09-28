@@ -32,5 +32,6 @@
     yazi
     yt-dlp
 
+    ntfs3g
   ];
 }
