@@ -114,7 +114,7 @@
 
       wallpaper = {
         enable = false;
-        image = "/home/hyprland/Downloads/pawel-czerwinski-uBReUvlYvyY-unsplash.jpg";
+        image = "/mnt/common/nixos/modules/de-wm/hyprland/wallpapers/daniil-silantev-3pW91fGAKiE-unsplash.jpg";
       };
     };
   };
