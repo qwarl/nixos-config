@@ -19,7 +19,7 @@
           on-resume = "hyprctl dispatch dpms on"; # screen on when activity is detected
         }
         {
-          timeout = 1800; # 30min
+          timeout = 630; # 5.5 min
           on-timeout = "systemctl suspend"; # suspend pc
         }
       ];
