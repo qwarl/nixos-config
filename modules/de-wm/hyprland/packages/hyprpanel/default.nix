@@ -29,6 +29,7 @@
             ];
             middle = [
               "cava"
+              "hypridle"
             ];
             right = [
               "volume"
