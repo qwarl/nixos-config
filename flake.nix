@@ -104,7 +104,7 @@
               home-manager.users."kde" = {
                 imports = [
                   ./modules/users/kde.nix
-                  inputs.plasma-manager.homeModules.plasma-manager
+                #   inputs.plasma-manager.homeModules.plasma-manager
                 ];
               };
               home-manager.users."hyprland" = import ./modules/users/hyprland.nix;

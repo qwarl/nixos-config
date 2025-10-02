@@ -7,7 +7,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/shared/aliases.nix
-    ../../modules/de-wm/kde/system.nix
+    # ../../modules/de-wm/kde/system.nix
     ../../modules/pc/system
   ];
 
@@ -72,8 +72,8 @@
   };
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {

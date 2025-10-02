@@ -69,10 +69,12 @@ home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/hyp
 ```
 
 **Ưu điểm:**
+
 - Cho phép chỉnh sửa cấu hình trực tiếp mà không cần rebuild
 - Thích hợp cho việc phát triển và thử nghiệm cấu hình
 
 **Nhược điểm:**
+
 - Phụ thuộc vào đường dẫn tuyệt đối trên hệ thống
 - Không portable giữa các máy khác nhau
 
@@ -83,7 +85,8 @@ home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/hyp
 
 ---
 
-**Tóm lại:**  
+**Tóm lại:**
+
 - Nên dùng cách mới với flake input để quản lý cấu hình ngoài dễ dàng hơn.
 - Đảm bảo truyền đúng `inputs` vào các module cần dùng.
 
@@ -95,9 +98,73 @@ Nếu khi chạy `nixos-rebuild` gặp lỗi như sau:
 error: path '/nix/store/.../modules/de-wm/kde/system.nix' does not exist
 ```
 
-Nguyên nhân thường là do bạn chưa thêm file mới vào git.  
+Nguyên nhân thường là do bạn chưa thêm file mới vào git.
 Hãy chạy lệnh sau để thêm file vào git, sau đó rebuild lại:
 
 ```sh
 git add <đường-dẫn-file>
+```
+
+# Thử nghiệm disable bỏ kde plasma (system + HM settings)
+
+Để tắt KDE Plasma trong cấu hình NixOS, cần comment/xóa các đoạn sau trong `flake.nix` và `configuration.nix` của host `pc`:
+
+## Flake.nix
+
+### 1. Comment plasma-manager input
+
+```nix
+# plasma-manager = {
+#   url = "github:nix-community/plasma-manager";
+#   inputs.nixpkgs.follows = "nixpkgs";
+#   inputs.home-manager.follows = "home-manager";
+# };
+```
+
+### 2. Comment plasma-manager trong outputs arguments
+
+```nix
+outputs =
+  {
+    self,
+    nixpkgs,
+    home-manager,
+    # plasma-manager,  # <- Comment dòng này
+    wezterm-config,
+    ...
+  }@inputs:
+```
+
+### 3. Comment imports trong user configuration
+
+```nix
+home-manager.users."kde" = {
+  # imports = [
+  #   ./modules/users/kde.nix
+  #   inputs.plasma-manager.homeModules.plasma-manager
+  # ];
+};
+```
+
+## Configuration.nix
+
+### 4. Comment import tới kde system config
+
+Trong file `./hosts/pc/configuration.nix`, comment dòng import:
+
+```nix
+imports = [
+  ./hardware-configuration.nix
+  ../../modules/shared/aliases.nix
+  # ../../modules/de-wm/kde/system.nix  # <- Comment dòng này
+];
+```
+
+### 5. Disable KDE Plasma service
+
+Trong cùng file `./hosts/pc/configuration.nix`, comment dòng enable plasma6 và sddm (sddm ko hỗ trợ hyprland dùng ly):
+
+```nix
+# services.desktopManager.plasma6.enable = true;
+# services.displayManager.sddm.enable = true;
 ```
