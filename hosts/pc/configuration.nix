@@ -1,6 +1,5 @@
 {
   pkgs,
-  inputs,
   ...
 }:
 
@@ -9,6 +8,7 @@
     ./hardware-configuration.nix
     ../../modules/shared/aliases.nix
     ../../modules/de-wm/kde/system.nix
+    ../../modules/pc/system
   ];
 
   # Bootloader.
@@ -172,73 +172,13 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
-  # Enable fcitx5
-  i18n.inputMethod = {
-    enable = true;
-    fcitx5.addons = with pkgs; [
-      fcitx5-bamboo
-      fcitx5-gtk
-      fcitx5-mozc
-      fcitx5-chinese-addons
-    ];
-    type = "fcitx5";
-  };
-
-  # Gpu settings
-  hardware.amdgpu.opencl.enable = true;
-
-  # Run unpatched dynamic binaries on NixOS. (binaries mason.nvim installed)
-  programs.nix-ld.enable = true;
-
-  # Enable hyprland
-  programs.hyprland = {
-    enable = true;
-    # set the flake package
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    # make sure to also set the portal package, so that they are in sync
-    portalPackage =
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-  };
-
-  # Use cachix to speed up hyprland installation
-  nix.settings = {
-    substituters = [ "https://hyprland.cachix.org" ];
-    trusted-substituters = [ "https://hyprland.cachix.org" ];
-    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
-  };
-
-  # Mount external drives automatically
-  fileSystems."/mnt/common" = {
-    device = "/dev/disk/by-uuid/712CC9052F07546A";
-    fsType = "ntfs3";
-    options = [
-      "rw"
-      "umask=000"
-      "nofail"
-    ];
-  };
-
-  # Faster rebuilding
-  documentation = {
-    enable = true;
-    doc.enable = false;
-    man.enable = true;
-    dev.enable = false;
-    info.enable = false;
-    nixos.enable = false;
-  };
-
-  # Enable hardware accelerated gpu
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [
-      rocmPackages.clr
-    ];
-  };
-  boot.initrd.kernelModules = [ "amdgpu" ];
-
-  # config for dolphin on hyprland can open sudo requires folder
-  security.polkit.enable = true;
+  # Enable module options (uncomment as needed)
+  fcitx5Mod = true;
+  hardwareAccelerated = true;
+  nixLd = true;
+  hyprlandModule = true;
+  autoMountDrives = true;
+  optimizedDocumentation = true;
+  polkitModule = true;
 
 }
