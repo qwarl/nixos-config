@@ -1,10 +1,11 @@
 {
   imports = [
     ./hyprland.nix
-    ./packages/dark-mode
-    ./packages/hyprpanel
-    ./packages/hypridle
-    ./packages/hyprlock
-    ./packages/hyprpaper
+    ./settings/dark-mode
+    ./settings/hyprpanel
+    ./settings/hypridle
+    ./settings/hyprlock
+    ./settings/hyprpaper
+    ./settings/gtk-icon
   ];
 }
