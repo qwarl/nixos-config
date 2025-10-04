@@ -46,6 +46,15 @@
     }@inputs:
     let
       system = "x86_64-linux";
+
+      info = {
+        users = [
+          { name = "hyprland"; }
+          { name = "kde"; }
+        ];
+        stateVersion = "25.05";
+        configPath = "/mnt/common/nixos";
+      };
     in
     {
       nixosConfigurations = {
@@ -66,7 +75,7 @@
         };
         pc = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs info; };
 
           modules = [
             ./hosts/pc/configuration.nix
@@ -104,11 +113,11 @@
               home-manager.users."kde" = {
                 imports = [
                   ./modules/users/kde.nix
-                #   inputs.plasma-manager.homeModules.plasma-manager
+                  #   inputs.plasma-manager.homeModules.plasma-manager
                 ];
               };
               home-manager.users."hyprland" = import ./modules/users/hyprland.nix;
-              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.extraSpecialArgs = { inherit inputs info; };
             }
           ];
         };

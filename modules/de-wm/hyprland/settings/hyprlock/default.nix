@@ -23,10 +23,10 @@
       label = [
         {
           monitor = "";
-          text = ''cmd[update:1000] echo "<span>$(date +"%I:%M")</span>"'';
+          text = ''cmd[update:1000] echo "<span>$(date +"%H:%M")</span>"'';
           color = "rgba(216, 222, 233, .7)";
           font_size = 160;
-          font_family = "steelfish outline regular";
+          font_family = "FiraMono Nerd Font";
           position = "0, 370";
           halign = "center";
           valign = "center";
