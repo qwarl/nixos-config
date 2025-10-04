@@ -81,7 +81,7 @@
                 {
                   imports = [
                     ./modules/pc/home/packages.nix
-                    ./modules/shared/packages
+                    ./modules/shared/home-manager/packages
                   ];
 
                   batMod = true;

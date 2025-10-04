@@ -1,11 +1,11 @@
-{ inputs, ... }:
+# { inputs, ... }:
 {
   imports = [
     ./bat.nix
     ./eza.nix
     ./fcitx5.nix
     ./fd.nix
-    ./fonts.nix
+    ./font.nix
     ./fzf.nix
     ./gh-cli.nix
     ./git.nix

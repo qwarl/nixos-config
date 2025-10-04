@@ -1,14 +1,16 @@
 {
   pkgs,
+  info,
   ...
 }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/shared/aliases.nix
+    ../../modules/shared/system/aliases.nix
     # ../../modules/de-wm/kde/system.nix
     ../../modules/pc/system
+    ../../modules/shared/system/shell.nix
   ];
 
   # Bootloader.
@@ -135,16 +137,6 @@
     git
   ];
 
-  # Set zsh default shell for all users
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-
-  # Enable flake config
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -170,7 +162,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = info.stateVersion; # Did you read the comment?
 
   # Enable module options (uncomment as needed)
   fcitx5Mod = true;
@@ -180,5 +172,6 @@
   autoMountDrives = true;
   optimizedDocumentation = true;
   polkitModule = true;
+  flakeMod = true;
 
 }

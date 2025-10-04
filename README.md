@@ -80,8 +80,7 @@ home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/hyp
 
 ## 4. Lưu ý khi cấu hình
 
-- Có thể bỏ file `./modules/shared/packages/wezterm.nix` nếu đã import toàn bộ thư mục `packages` trong `/hosts/pc/home.nix`.
-- Chỉ cần truyền `inputs` vào argument set của `/hosts/pc/home.nix` và `/modules/shared/packages/default.nix`.
+- Có thể bỏ file `./modules/shared/home-manager/packages/wezterm.nix` nếu đã import toàn bộ thư mục `packages` trong `/hosts/pc/home.nix`.
 
 ---
 
@@ -155,7 +154,7 @@ Trong file `./hosts/pc/configuration.nix`, comment dòng import:
 ```nix
 imports = [
   ./hardware-configuration.nix
-  ../../modules/shared/aliases.nix
+  ../../modules/shared/system/aliases.nix
   # ../../modules/de-wm/kde/system.nix  # <- Comment dòng này
 ];
 ```

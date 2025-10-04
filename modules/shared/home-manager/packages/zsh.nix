@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  info,
   ...
 }:
 {
@@ -81,7 +82,7 @@
                     echo "Usage: rebuild <host>"
                     return 1
                 fi
-                sudo nixos-rebuild switch --flake /mnt/common/nixos#$1
+                sudo nixos-rebuild switch --flake ${info.configPath}#$1
             }
 
             # Update flake and rebuild system
@@ -91,8 +92,8 @@
                 return 1
               fi
 
-              sudo nix flake update --flake /mnt/common/nixos
-              sudo nixos-rebuild switch --flake /mnt/common/nixos#$1
+              sudo nix flake update --flake /${info.configPath}
+              sudo nixos-rebuild switch --flake ${info.configPath}#$1
             }
 
             # Delete old system generations, keep the latest N

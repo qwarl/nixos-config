@@ -2,7 +2,7 @@
 {
   imports = [
     ../../modules/vm/home/packages.nix
-    ../../modules/shared/packages
+    ../../modules/shared/home-manager/packages
   ];
   home = {
     homeDirectory = "/home/quan";
