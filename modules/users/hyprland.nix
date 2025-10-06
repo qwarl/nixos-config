@@ -17,9 +17,13 @@
       xdg-utils
 
       kdePackages.polkit-kde-agent-1
+      clipse
+      uv
+
     ];
   };
 
   hyprpanelMod = true;
+  waybarMod = true;
 
 }
