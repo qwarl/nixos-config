@@ -69,7 +69,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.sharedModules = [ plasma-manager.homeModules.plasma-manager ];
-              home-manager.users.quan = import ./hosts/vm/home.nix;
+              home-manager.users.quan = import ./modules/users/quan.nix;
             }
           ];
         };
