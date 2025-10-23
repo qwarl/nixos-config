@@ -1,25 +1,21 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
+    clipse
+    dragon-drop
     grim
     hyprshot
     kdePackages.dolphin
+    kdePackages.polkit-kde-agent-1
+    pulseaudio
     rofi
     slurp
     wf-recorder
     xdg-user-dirs
     xdg-utils
 
-    kdePackages.polkit-kde-agent-1
-    clipse
-    # xdg-launch
-    # xdgmenumaker
-    # xdg-terminal-exec
-    # xdg-desktop-portal
-    dragon-drop
     swaynotificationcenter
     pavucontrol
-    pulseaudio
     nvd
     libnotify
 

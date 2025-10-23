@@ -49,6 +49,7 @@
                 "battery"
                 "systray"
                 "clock"
+                "kbinput"
                 "notifications"
                 "power"
               ];
@@ -107,7 +108,7 @@
           };
           weather = {
             key = "c6d8153da11645dfb7444934251809";
-            location = "71210";
+            location = "10.75, 106.67";
             unit = "metric";
           };
         };

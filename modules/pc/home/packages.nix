@@ -1,7 +1,6 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   home.packages = with pkgs; [
-    btop
+    btop-rocm
     corepack
     dust
     file
@@ -10,7 +9,8 @@
     floorp-bin
     gamescope
     gcc
-    go  # for hyprls installs
+    go # for hyprls installs
+    jq
     lazygit
     lutris
     microsoft-edge
