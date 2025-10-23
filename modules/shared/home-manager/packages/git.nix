@@ -7,14 +7,15 @@
   config = lib.mkIf config.gitMod {
     programs.git = {
       enable = true;
-      delta = {
-        enable = true;
-      };
-      userEmail = "quannngoc98@gmail.com";
-      userName = "qwarl";
-      extraConfig = {
+      settings = {
+        user.email = "quannngoc98@gmail.com";
+        user.name = "qwarl";
         safe.directory = "/mnt/common/nixos";
       };
+    };
+    programs.delta={
+      enable = true;
+      enableGitIntegration = true;
     };
   };
 }
