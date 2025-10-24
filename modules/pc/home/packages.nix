@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
+    anydesk
     btop-rocm
     corepack
     dust
@@ -29,7 +30,6 @@
     vscode
     wget
     wl-clipboard
-    yazi
     yt-dlp
 
     ntfs3g

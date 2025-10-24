@@ -14,6 +14,9 @@
     programs.hyprpanel = {
       package = inputs.hyprpanel.packages.${pkgs.system}.default;
       enable = true;
+      systemd = {
+        enable = true;
+      };
       settings = {
         bar = {
           customModules = {
