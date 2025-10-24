@@ -21,6 +21,7 @@
         noto-fonts-cjk-sans-static
         noto-fonts-cjk-serif
         noto-fonts-cjk-serif-static
+        unicode-emoji
       ];
     };
 

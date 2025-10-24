@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, info, ... }:
 {
   options = {
     gitMod = lib.mkEnableOption "enables gitMod";
@@ -8,9 +8,11 @@
     programs.git = {
       enable = true;
       settings = {
-        user.email = "quannngoc98@gmail.com";
-        user.name = "qwarl";
-        safe.directory = "/mnt/common/nixos";
+        user.email = "${info.email}";
+        user.name = "${(builtins.elemAt info.users 2).name}";
+        safe.directory = [
+          "${info.configPath}"
+        ];
       };
     };
     programs.delta={
