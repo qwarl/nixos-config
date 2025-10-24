@@ -8,5 +8,6 @@
     ./settings/hyprlock
     ./settings/hyprpaper
     ./settings/gtk-icon
+    ./settings/waybar
   ];
 }

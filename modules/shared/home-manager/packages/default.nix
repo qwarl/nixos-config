@@ -9,11 +9,12 @@
     ./fzf.nix
     ./gh-cli.nix
     ./git.nix
-    ./mpv.nix
+    ./mpv
     ./neovim.nix
     ./ripgrep.nix
     ./vscode.nix
     ./wezterm.nix
+    ./yazi
     ./zed.nix
     ./zoxide.nix
     ./zsh.nix

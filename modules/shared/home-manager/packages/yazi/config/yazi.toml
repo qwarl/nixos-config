@@ -1,0 +1,45 @@
+[opener]
+edit = [
+  { run = 'nvim "$@"', block = true, for = "unix", desc = "Neovim" },
+  { run = "nvim %*", block = true, for = "windows", desc = "Neovim" },
+  { run = 'code "$@"', block = true, for = "unix", desc = "Vscode" },
+  { run = "code %*", block = true, for = "windows", desc = "Vscode" },
+  { run = 'zeditor "$@"', block = true, for = "unix", desc = "Zed" },
+  { run = "zed %*", block = true, for = "windows", desc = "Zed" },
+]
+
+[plugin]
+prepend_preloaders = [
+  # Replace magick, image, video with mediainfo
+  { mime = "{audio,video,image}/*", run = "mediainfo" },
+  { mime = "application/subrip", run = "mediainfo" },
+
+  # Office Documents
+  { mime = "application/openxmlformats-officedocument.*", run = "office" },
+  { mime = "application/oasis.opendocument.*", run = "office" },
+  { mime = "application/ms-*", run = "office" },
+  { mime = "application/msword", run = "office" },
+  { name = "*.docx", run = "office" },
+]
+prepend_previewers = [
+  # Replace magick, image, video with mediainfo
+  { mime = "{audio,video,image}/*", run = "mediainfo" },
+  { mime = "application/subrip", run = "mediainfo" },
+
+  # Office Documents
+  { mime = "application/openxmlformats-officedocument.*", run = "office" },
+  { mime = "application/oasis.opendocument.*", run = "office" },
+  { mime = "application/ms-*", run = "office" },
+  { mime = "application/msword", run = "office" },
+  { name = "*.docx", run = "office" },
+]
+
+[[plugin.prepend_fetchers]]
+id = "git"
+name = "*"
+run = "git"
+
+[[plugin.prepend_fetchers]]
+id = "git"
+name = "*/"
+run = "git"

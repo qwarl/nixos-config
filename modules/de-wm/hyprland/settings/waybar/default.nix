@@ -1,6 +1,4 @@
 {
-  inputs,
-  pkgs,
   lib,
   config,
   ...
@@ -13,7 +11,11 @@
   config = lib.mkIf config.waybarMod {
     programs.waybar = {
       enable = true;
+      systemd = {
+        enable = true;
+      };
     };
+    home.file.".config/waybar".source = ./config;
 
   };
 }

@@ -64,8 +64,14 @@ in
 
 Ngoài việc sử dụng flake input, bạn cũng có thể tạo symlink trực tiếp đến thư mục cấu hình bên ngoài:
 
+### 3.1 Cài bằng home manager
 ```nix
-home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/hyprland/Desktop/nvim";
+home.file.".config/nvim".source = ./waybar-config
+```
+
+### 3.2 Cài với system. folder config nằm ngoài folder flake.nix
+```nix
+xdg.configFile."waybar".source = config.lib.file.mkOutOfStoreSymlink "/home/hyprland/Desktop/nvim";
 ```
 
 **Ưu điểm:**
