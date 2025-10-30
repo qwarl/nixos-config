@@ -1,4 +1,3 @@
-# { inputs, ... }:
 {
   imports = [
     ./bat.nix
@@ -10,7 +9,7 @@
     ./gh-cli.nix
     ./git.nix
     ./mpv
-    ./neovim.nix
+    ./neovim
     ./ripgrep.nix
     ./vscode.nix
     ./wezterm.nix
