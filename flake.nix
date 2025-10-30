@@ -51,9 +51,12 @@
         users = [
           { name = "hyprland"; }
           { name = "kde"; }
+          { name = "qwarl"; }
+          { name = "quan"; }
         ];
         stateVersion = "25.05";
         configPath = "/mnt/common/nixos";
+        email = "quannngoc98@gmail.com";
       };
     in
     {
