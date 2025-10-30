@@ -1,4 +1,4 @@
-# Câu lệnh khi build
+# Lệnh khi build
 
 ## 1. Build bằng configuration
 
@@ -12,9 +12,13 @@ sudo nixos-rebuild switch
 sudo nixos-rebuild switch --flake .#hostname
 ```
 
-# Hướng dẫn sử dụng cấu hình WezTerm từ repo ngoài với Nix Flake
+# Hướng dẫn: sử dụng cấu hình WezTerm từ repo ngoài (với Nix Flake)
 
-## 1. Cách cũ: Dùng trực tiếp trong module
+Phần này mô tả ba cách phổ biến để dùng cấu hình WezTerm ngoài (fetch trực tiếp, dùng flake input, hoặc tạo symlink).
+
+## 1) Cách cũ — fetch trực tiếp trong module
+
+Ví dụ: dùng `builtins.fetchGit` trong module để lấy file `wezterm.lua`:
 
 ```nix
 { lib, config, ... }:
@@ -39,84 +43,86 @@ in
 }
 ```
 
-## 2. Cách mới: Sử dụng flake input
+## 2) Cách mới — dùng flake input (đề xuất)
 
-- Trong `flake.nix`, thêm vào phần `inputs`:
-  ```nix
-  wezterm-config = {
-    url = "github:qwarl/wezterm-config";
-    flake = false;
-  };
-  ```
-- Truyền `inputs` vào các module qua `home-manager.extraSpecialArgs`:
-  ```nix
-  home-manager.extraSpecialArgs = { inherit inputs; };
-  ```
-- Trong module, lấy file cấu hình như sau:
-  ```nix
-  let
-    weztermLua = builtins.readFile "${inputs.wezterm-config}/wezterm.lua";
-  in
-  # ... phần còn lại như ví dụ trên
-  ```
+- Trong `flake.nix`, thêm input:
 
-## 3. Cách sử dụng symlink cho cấu hình bên ngoài
+```nix
+wezterm-config = {
+  url = "github:qwarl/wezterm-config";
+  flake = false;
+};
+```
 
-Ngoài việc sử dụng flake input, bạn cũng có thể tạo symlink trực tiếp đến thư mục cấu hình bên ngoài:
+- Truyền `inputs` vào các module (ví dụ qua `home-manager.extraSpecialArgs`):
 
-### 3.1 Cài bằng home manager
+```nix
+home-manager.extraSpecialArgs = { inherit inputs; };
+```
+
+- Trong module, đọc file:
+
+```nix
+let
+  weztermLua = builtins.readFile "${inputs.wezterm-config}/wezterm.lua";
+in
+# ... sử dụng `weztermLua` như ví dụ ở trên
+```
+
+Ưu điểm của cách này: gọn, dễ quản lý, và portable hơn so với symlink tuyệt đối.
+
+## 3) Dùng symlink cho cấu hình bên ngoài
+
+Bạn có thể dùng symlink nếu muốn chỉnh sửa cấu hình mà không cần rebuild.
+
+- Ví dụ cài bằng Home Manager (relative path từ file Nix gọi `home.file`):
+
 ```nix
 home.file."waybar".source = ./config;
 ```
 
-### 3.2 Cài với system. folder config nằm ngoài folder flake.nix
+- Hoặc tạo symlink out-of-store (đường dẫn tuyệt đối trong hệ thống):
+
 ```nix
-xdg.configFile.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/hyprland/Desktop/nvim"
+xdg.configFile.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/hyprland/Desktop/nvim";
 ```
 
-**Ưu điểm:**
+Ghi chú về đường dẫn:
 
-- Cho phép chỉnh sửa cấu hình trực tiếp mà không cần rebuild
-- Thích hợp cho việc phát triển và thử nghiệm cấu hình
-
-**Nhược điểm:**
-
-- Phụ thuộc vào đường dẫn tuyệt đối trên hệ thống
-- Không portable giữa các máy khác nhau
-
-## 4. Lưu ý khi cấu hình
-
-- Có thể bỏ file `./modules/shared/home-manager/packages/wezterm.nix` nếu đã import toàn bộ thư mục `packages` trong `/hosts/pc/home.nix`.
+- `home.file."...".source = ./path` — đường dẫn tương đối so với file Nix đang gọi.
+- `mkOutOfStoreSymlink "/abs/path"` — dùng đường dẫn tuyệt đối trong hệ thống.
 
 ---
 
-**Tóm lại:**
+## Tóm tắt
 
-- Nên dùng cách mới với flake input để quản lý cấu hình ngoài dễ dàng hơn.
-- Đảm bảo truyền đúng `inputs` vào các module cần dùng.
+- Khuyến nghị: dùng flake input khi có thể — dễ quản lý và portable.
+- Đảm bảo truyền đúng `inputs` vào module cần dùng.
 
-## 5. Xử lý lỗi thường gặp
+## Xử lý lỗi thường gặp
 
-Nếu khi chạy `nixos-rebuild` gặp lỗi như sau:
+Ví dụ lỗi khi chạy `nixos-rebuild`:
 
-```
+```text
 error: path '/nix/store/.../modules/de-wm/kde/system.nix' does not exist
 ```
 
-Nguyên nhân thường là do bạn chưa thêm file mới vào git.
-Hãy chạy lệnh sau để thêm file vào git, sau đó rebuild lại:
+Nguyên nhân phổ biến: quên thêm file vào git (file mới chưa được tracked). Thao tác khắc phục nhanh:
 
 ```sh
 git add <đường-dẫn-file>
+nixos-rebuild switch --flake .#hostname
 ```
 
-# Thử nghiệm disable bỏ kde plasma (system + HM settings)
+---
 
-Để tắt KDE Plasma trong cấu hình NixOS, cần comment/xóa các đoạn sau trong `flake.nix` và `configuration.nix` của host `pc`:
+# Thử nghiệm: tắt (disable) KDE Plasma (system + Home Manager)
 
-## Flake.nix
+Nếu muốn tắt KDE Plasma trên host `pc`, bạn có thể comment/xóa các đoạn liên quan trong `flake.nix` và `./hosts/pc/configuration.nix`.
 
-### 1. Comment plasma-manager input
+### Flake.nix — ví dụ
+
+1) Comment phần `plasma-manager` trong `inputs` (nếu có):
 
 ```nix
 # plasma-manager = {
@@ -126,48 +132,34 @@ git add <đường-dẫn-file>
 # };
 ```
 
-### 2. Comment plasma-manager trong outputs arguments
+2) Nếu `plasma-manager` được liệt kê trong `outputs`, comment nó đi:
 
 ```nix
-outputs =
-  {
-    self,
-    nixpkgs,
-    home-manager,
-    # plasma-manager,  # <- Comment dòng này
-    wezterm-config,
-    ...
-  }@inputs:
+outputs = { self, nixpkgs, home-manager, # plasma-manager,
+  wezterm-config, ... }@inputs:
 ```
 
-### 3. Comment imports trong user configuration
+3) Trong phần `home-manager.users."kde"`, bỏ import tới `plasma-manager` nếu có:
 
 ```nix
 home-manager.users."kde" = {
-  # imports = [
-  #   ./modules/users/kde.nix
-  #   inputs.plasma-manager.homeModules.plasma-manager
-  # ];
+  # imports = [ ./modules/users/kde.nix inputs.plasma-manager.homeModules.plasma-manager ];
 };
 ```
 
-## Configuration.nix
+### hosts/pc/configuration.nix — ví dụ
 
-### 4. Comment import tới kde system config
-
-Trong file `./hosts/pc/configuration.nix`, comment dòng import:
+4) Comment import tới `kde` system config:
 
 ```nix
 imports = [
   ./hardware-configuration.nix
   ../../modules/shared/system/aliases.nix
-  # ../../modules/de-wm/kde/system.nix  # <- Comment dòng này
+  # ../../modules/de-wm/kde/system.nix
 ];
 ```
 
-### 5. Disable KDE Plasma service
-
-Trong cùng file `./hosts/pc/configuration.nix`, comment dòng enable plasma6 và sddm (sddm ko hỗ trợ hyprland dùng ly):
+5) Comment hoặc tắt dịch vụ Plasma / display manager nếu cần:
 
 ```nix
 # services.desktopManager.plasma6.enable = true;
