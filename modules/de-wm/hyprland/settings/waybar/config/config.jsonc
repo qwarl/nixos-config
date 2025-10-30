@@ -184,8 +184,9 @@
       "car": "",
       "default": ["", "", " "]
     },
-    "on-click-right": "pavucontrol",
-    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    "on-click-right": "$HOME/.config/waybar/modules/switch-audio profile",
+    "on-click-middle": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click": "$HOME/.config/waybar/modules/switch-audio sink"
   },
   "pulseaudio/slider": {
     "min": 0,
@@ -201,10 +202,10 @@
     },
     "modules": [
       "custom/power", // First element is the "group leader" and won't ever be hidden
-      "custom/lock",
-      "custom/sleep",
+      "custom/reboot",
       "custom/quit",
-      "custom/reboot"
+      "custom/sleep",
+      "custom/lock"
     ]
   },
   "custom/power": {

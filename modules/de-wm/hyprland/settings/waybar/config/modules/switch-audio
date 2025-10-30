@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+# Script chuyển đổi sink và profile âm thanh (PipeWire/PulseAudio)
+# JSON-based với jq, bỏ qua "off" và profile chỉ có input
+# Tối ưu cho NixOS, hỗ trợ Bluetooth
+
+set -euo pipefail
+
+if ! command -v jq >/dev/null 2>&1; then
+    echo "Cần cài jq để chạy script này." >&2
+    exit 1
+fi
+
+get_current_sink() {
+    pactl -f json info | jq -r '.default_sink_name'
+}
+
+list_sinks() {
+    pactl -f json list sinks | jq -r '.[].name'
+}
+
+switch_sink() {
+    local sinks=($(list_sinks))
+    local current=$(get_current_sink)
+    local index=-1
+
+    if [ ${#sinks[@]} -eq 0 ]; then
+        echo "Không tìm thấy sink." >&2
+        exit 1
+    fi
+
+    for i in "${!sinks[@]}"; do
+        if [[ "${sinks[$i]}" == "$current" ]]; then
+            index=$i
+            break
+        fi
+    done
+
+    local next_index=$(( (index + 1) % ${#sinks[@]} ))
+    local next_sink="${sinks[$next_index]}"
+
+    echo "Chuyển sink: $next_sink"
+    pactl set-default-sink "$next_sink"
+    pactl -f json list sink-inputs | jq -r '.[].index' | while read -r id; do
+        pactl move-sink-input "$id" "$next_sink"
+    done
+}
+
+get_current_card() {
+    local sink=$(get_current_sink)
+    local card
+    card=$(pactl -f json list sinks | jq -r --arg sink "$sink" '.[] | select(.name == $sink) | .card')
+
+    if [[ "$card" == "null" || -z "$card" ]]; then
+        if [[ "$sink" == bluez_output.* ]]; then
+            echo "$sink" | sed 's/bluez_output\./bluez_card./; s/\.[^.]*$//'
+        elif [[ "$sink" == alsa_output.* ]]; then
+            echo "$sink" | sed 's/alsa_output\./alsa_card./; s/\.[^.]*$//'
+        else
+            echo ""
+        fi
+    else
+        echo "$card" | sed 's/^<//; s/>$//'
+    fi
+}
+
+# --- profile filter: skip "off" + skip input-only profiles
+list_profiles() {
+    local card="$1"
+    pactl -f json list cards |
+        jq -r --arg card "$card" '
+            .[] | select(.name == $card)
+            | .profiles | to_entries[]
+            | select(
+                .key != "off" and
+                (.key | test("^input:") | not) and
+                (
+                    (.value.available == true)
+                    or (.value.available == "yes")
+                    or (.value.available == "unknown")
+                    or (.value.available == "true")
+                )
+            )
+            | .key
+        '
+}
+
+get_active_profile() {
+    local card="$1"
+    pactl -f json list cards |
+        jq -r --arg card "$card" '.[] | select(.name == $card) | .active_profile'
+}
+
+switch_profile() {
+    local card=$(get_current_card)
+    if [ -z "$card" ]; then
+        echo "Không xác định được card." >&2
+        exit 1
+    fi
+
+    local profiles=($(list_profiles "$card"))
+    if [ ${#profiles[@]} -eq 0 ]; then
+        echo "Không có profile khả dụng cho card $card." >&2
+        exit 1
+    fi
+
+    local current=$(get_active_profile "$card")
+    local index=-1
+
+    for i in "${!profiles[@]}"; do
+        if [[ "${profiles[$i]}" == "$current" ]]; then
+            index=$i
+            break
+        fi
+    done
+
+    local next_index=$(( (index + 1) % ${#profiles[@]} ))
+    local next_profile="${profiles[$next_index]}"
+
+    echo "Chuyển profile: $next_profile"
+    pactl set-card-profile "$card" "$next_profile"
+
+    if [[ "$card" == bluez_card.* ]]; then
+        sleep 1
+        local bluez_sink
+        bluez_sink=$(pactl -f json list sinks | jq -r --arg card "$card" \
+            '.[] | select(.name | startswith($card | sub("card"; "output"))) | .name' | head -n1)
+        if [[ -n "$bluez_sink" ]]; then
+            echo "Khôi phục sink Bluetooth: $bluez_sink"
+            pactl set-default-sink "$bluez_sink"
+        fi
+    fi
+
+    echo "Sink hiện tại: $(get_current_sink)"
+}
+
+case "${1:-}" in
+    sink)
+        switch_sink
+        ;;
+    profile)
+        switch_profile
+        ;;
+    list)
+        sink=$(get_current_sink)
+        card=$(get_current_card)
+        current_profile=$(get_active_profile "$card")
+        echo "Sink hiện tại: $sink"
+        echo "Card hiện tại: $card"
+        echo "Profile hiện tại: $current_profile"
+        echo ""
+        echo "Danh sách profile khả dụng:"
+        list_profiles "$card" | sed 's/^/ - /'
+        ;;
+    *)
+        echo "Dùng: $0 {sink | profile | list}"
+        ;;
+esac
