@@ -11,6 +11,7 @@
     # ../../modules/de-wm/kde/system.nix
     ../../modules/pc/system
     ../../modules/shared/system/shell.nix
+    ../../modules/shared/system
   ];
 
   # Bootloader.
@@ -174,5 +175,8 @@
   optimizedDocumentation = true;
   polkitModule = true;
   flakeMod = true;
-
+  userCustom.modules.docker = {
+    enable = true;
+    users = [ "hyprland" ];
+  };
 }
