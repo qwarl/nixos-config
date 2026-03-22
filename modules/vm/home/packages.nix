@@ -3,7 +3,7 @@
   home.packages = with pkgs; [
     wget
     fastfetch
-    nixfmt-rfc-style
+    nixfmt
     firefox
     nil
     wl-clipboard
