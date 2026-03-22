@@ -8,6 +8,7 @@
     kdePackages.dolphin
     kdePackages.polkit-kde-agent-1
     pulseaudio
+    pavucontrol
     rofi
     slurp
     wf-recorder
@@ -15,15 +16,9 @@
     xdg-utils
 
     swaynotificationcenter
-    pavucontrol
     nvd
     libnotify
-
-    # battery stat for laptop. just in case forget its name
-    # powerstat
-    # tlp
   ];
 
   # hyprpanelMod = true;
-  waybarMod = true;
 }
