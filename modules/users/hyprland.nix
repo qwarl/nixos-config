@@ -1,4 +1,4 @@
-{ pkgs, info, ... }:
+{ info, ... }:
 {
   imports = [ ../de-wm/hyprland ];
   home = {
@@ -6,8 +6,8 @@
     stateVersion = info.stateVersion;
     username = (builtins.elemAt info.users 0).name;
 
-
   };
 
-
+  waybarMod = true;
 }
+
