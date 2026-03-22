@@ -56,7 +56,7 @@
                 shift
 
                 case "$command" in
-                cd) fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+                cd) fzf --preview ' --tree --color=always {} | head -200' "$@" ;;
                 export | unset) fzf --preview "eval 'echo $'{}" "$@" ;;
                 ssh) fzf --preview 'dig {}' "$@" ;;
                 *) fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
@@ -108,6 +108,9 @@
               sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +$keep
               sudo nix-collect-garbage -d
             }
+
+            # reload waybar config
+            alias waybarrl="pkill -USR2 waybar"
 
             # alias-finder omz plugin
             zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
