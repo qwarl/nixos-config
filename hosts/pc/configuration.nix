@@ -1,6 +1,7 @@
 {
   pkgs,
   info,
+  inputs,
   ...
 }:
 
@@ -12,7 +13,14 @@
     ../../modules/pc/system
     ../../modules/shared/system/shell.nix
     ../../modules/shared/system
+
+    inputs.fcitx5-lotus.nixosModules.fcitx5-lotus
   ];
+
+  services.fcitx5-lotus = {
+    enable = true;
+    user = "hyprland";
+  };
 
   # Bootloader.
   boot = {

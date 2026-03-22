@@ -33,6 +33,10 @@
       url = "github:Jas-SinghFSU/HyprPanel";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    fcitx5-lotus = {
+          url = "github:LotusInputMethod/fcitx5-lotus";
+          inputs.nixpkgs.follows = "nixpkgs";
+        };
   };
 
   outputs =
