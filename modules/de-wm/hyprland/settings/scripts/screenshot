@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# ~/.local/bin/screenshot-rofi
+set -euo pipefail
+
+# nơi lưu mặc định (hyprshot cũng dùng HYPRSHOT_DIR nếu set)
+PICDIR="$HOME/Pictures/Screenshots"
+mkdir -p "$PICDIR"
+
+# tùy chỉnh tên file
+timestamp="$(date +%d-%m-%Y_%H-%M-%S).png"
+
+# danh sách menu
+OPTIONS=(
+  "  Area — copy to clipboard"
+  "  Area — save file"
+  "  Window — copy to clipboard"
+  "  Window — save file"
+  "󰍹  Active monitor — copy to clipboard"
+  "󰍹  Active monitor — save file"
+  "󰍺  Full screen — copy to clipboard"
+  "󰍺  Full screen — save file"
+  "󰜺  Cacel"
+)
+
+CHOICE="$(printf '%s\n' "${OPTIONS[@]}" | rofi -dmenu -i -p "Screenshot")" || exit 0
+
+case "$CHOICE" in
+  "  Area — copy to clipboard")
+    hyprshot -m region --clipboard-only || notify-send "hyprshot failed"
+    ;;
+  "  Area — save file")
+    hyprshot -m region -o "$PICDIR" -f "$timestamp" || notify-send "hyprshot failed"
+    ;;
+  "  Window — copy to clipboard")
+    hyprshot -m window --clipboard-only || notify-send "hyprshot failed"
+    ;;
+  "  Window — save file")
+    hyprshot -m window -o "$PICDIR" -f "$timestamp" || notify-send "hyprshot failed"
+    ;;
+  "󰍹  Active monitor — copy to clipboard")
+    hyprshot -m active -m output --clipboard-only || notify-send "hyprshot failed"
+    ;;
+  "󰍹  Active monitor — save file")
+    hyprshot -m active -m output -o "$PICDIR" -f "$timestamp" || notify-send "hyprshot failed"
+    ;;
+  "󰍺  Full screen — copy to clipboard")
+    hyprshot -m output --clipboard-only || notify-send "hyprshot failed"
+    ;;
+  "󰍺  Full screen — save file")
+    hyprshot -m output -o "$PICDIR" -f "$timestamp" || notify-send "hyprshot failed"
+    ;;
+  "󰜺  Cancel")
+    ;;
+esac

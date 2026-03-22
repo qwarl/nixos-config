@@ -75,21 +75,14 @@ in
 
 Bạn có thể dùng symlink nếu muốn chỉnh sửa cấu hình mà không cần rebuild.
 
-- Ví dụ cài bằng Home Manager (relative path từ file Nix gọi `home.file`):
-
-```nix
-home.file."waybar".source = ./config;
-```
-
-- Hoặc tạo symlink out-of-store (đường dẫn tuyệt đối trong hệ thống):
-
 ```nix
 xdg.configFile.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/hyprland/Desktop/nvim";
 ```
 
 Ghi chú về đường dẫn:
 
-- `home.file."...".source = ./path` — đường dẫn tương đối so với file Nix đang gọi.
+- `home.file."...".source = ./path` — file/thư mục bắt đầu trong ~/
+- `xdg.confiFile."...".source = ./path` — file/thư mục bắt đầu trong ~/.config/...
 - `mkOutOfStoreSymlink "/abs/path"` — dùng đường dẫn tuyệt đối trong hệ thống.
 
 ---

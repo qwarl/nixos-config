@@ -2,7 +2,6 @@
   home.packages = with pkgs; [
     anydesk
     btop-rocm
-    corepack
     dust
     file
     fastfetch
@@ -17,8 +16,8 @@
     microsoft-edge
     nil
     nixd
-    nodejs
-    nixfmt-rfc-style
+    nodejs_25
+    nixfmt
     python314
     qbittorrent
     rustup
@@ -33,5 +32,19 @@
     yt-dlp
 
     ntfs3g
+    oversteer
+    deluge
+    steam
+    # llama-cpp-rocm
+    lm_sensors
+    mediainfo
+    exiftool
+    poppler
+    resvg
+    rustdesk
+    imagemagick
+    libreoffice
+    trash-cli
+    tldr
   ];
 }
