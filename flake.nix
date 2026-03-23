@@ -57,6 +57,7 @@
           { name = "kde"; }
           { name = "qwarl"; }
           { name = "quan"; }
+          { name = "server"; }
         ];
         stateVersion = "25.05";
         configPath = "/mnt/common/nixos";
@@ -125,6 +126,25 @@
                 ];
               };
               home-manager.users."hyprland" = import ./modules/users/hyprland.nix;
+              home-manager.extraSpecialArgs = { inherit inputs info; };
+            }
+          ];
+        };
+        server = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs info; };
+
+          modules = [
+            ./hosts/vm/configuration.nix
+            home-manager.nixosModules.home-manager
+
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ 
+
+              ];
+              home-manager.users.server = import ./modules/users/server.nix;
               home-manager.extraSpecialArgs = { inherit inputs info; };
             }
           ];

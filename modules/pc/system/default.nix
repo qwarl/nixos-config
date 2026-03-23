@@ -7,7 +7,6 @@
     ./auto-mount.nix
     ./documentation.nix
     ./polkit.nix
-    ./flake.nix
 
     # below don't use module so just import make them work
     ./driver.nix
