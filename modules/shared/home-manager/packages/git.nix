@@ -11,7 +11,7 @@
         user.email = "${info.email}";
         user.name = "${(builtins.elemAt info.users 2).name}";
         safe.directory = [
-          "${info.configPath}"
+          "${(builtins.elemAt info.configPaths 0).path}"
         ];
       };
     };

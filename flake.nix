@@ -60,7 +60,10 @@
           { name = "server"; }
         ];
         stateVersion = "25.05";
-        configPath = "/mnt/common/nixos";
+        configPaths = [
+          { path = "/mnt/common/nixos"; }
+          { path = "/home/server/nixos-config"; }
+        ];
         email = "quannngoc98@gmail.com";
       };
     in
