@@ -138,14 +138,35 @@
           specialArgs = { inherit inputs info; };
 
           modules = [
-            ./hosts/vm/configuration.nix
+            ./hosts/server/configuration.nix
             home-manager.nixosModules.home-manager
 
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.sharedModules = [ 
+              home-manager.sharedModules = [
+                {
+                imports = [
+                  ./modules/shared/home-manager/packages
+                ];
 
+                batMod = true;
+                ezaMod = true;
+                fdMod = true;
+                fontsMod = false;
+                fzfMod = true;
+                ghMod = true;
+                gitMod = true;
+                mpvMod = false;
+                neovimMod = true;
+                ripgrepMod = true;
+                vscodeMod = false;
+                weztermMod = false;
+                yaziMod = true;
+                zedMod = false;
+                zoxideMod = true;
+                zshMod = true;
+                }
               ];
               home-manager.users.server = import ./modules/users/server.nix;
               home-manager.extraSpecialArgs = { inherit inputs info; };
