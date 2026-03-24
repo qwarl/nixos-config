@@ -147,6 +147,7 @@
               home-manager.sharedModules = [
                 {
                 imports = [
+                  ./modules/server/home/packages.nix
                   ./modules/shared/home-manager/packages
                 ];
 

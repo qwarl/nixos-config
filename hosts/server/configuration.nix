@@ -113,4 +113,6 @@
     enable = true;
     users = [ "server" ];
   };
+
+  tailscaleMod = true;
 }

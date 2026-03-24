@@ -185,4 +185,5 @@
     enable = true;
     users = [ "hyprland" ];
   };
+  tailscaleMod = true;
 }
