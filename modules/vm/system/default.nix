@@ -1,7 +1,6 @@
 {
   imports = [
     ./packages
-    ./aliases.nix
     ./allowUnfree.nix
     ./audio.nix
     ./boot.nix
