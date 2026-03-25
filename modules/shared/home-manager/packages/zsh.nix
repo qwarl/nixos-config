@@ -63,19 +63,6 @@
                 esac
             }
 
-            # xoa yy() cua yazi tu sinh
-            unset -f yy 2>/dev/null
-
-            # tao lai alias moi
-            function y() {
-                local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
-                yazi "$@" --cwd-file="$tmp"
-                if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-                    builtin cd -- "$cwd"
-                fi
-                rm -f -- "$tmp"
-            }
-
             # alias nixos-rebuild function
             rebuild() {
                 if [[ -z "$1" ]]; then
