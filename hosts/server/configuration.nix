@@ -5,6 +5,7 @@
     [
       ./hardware-configuration.nix
       ../../modules/shared/system
+      ../../modules/server/system
     ];
 
   # Bootloader.
