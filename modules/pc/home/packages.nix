@@ -22,7 +22,6 @@
     qbittorrent
     rustup
     telegram-desktop
-    tmux
     tokei
     tree-sitter
     unzip

@@ -34,9 +34,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fcitx5-lotus = {
-          url = "github:LotusInputMethod/fcitx5-lotus";
-          inputs.nixpkgs.follows = "nixpkgs";
-        };
+      url = "github:LotusInputMethod/fcitx5-lotus";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -114,6 +114,7 @@
                   mpvMod = true;
                   neovimMod = true;
                   ripgrepMod = true;
+                  tmuxMod = true;
                   vscodeMod = true;
                   weztermMod = true;
                   yaziMod = true;
@@ -146,27 +147,28 @@
               home-manager.useUserPackages = true;
               home-manager.sharedModules = [
                 {
-                imports = [
-                  ./modules/server/home/packages.nix
-                  ./modules/shared/home-manager/packages
-                ];
+                  imports = [
+                    ./modules/server/home/packages.nix
+                    ./modules/shared/home-manager/packages
+                  ];
 
-                batMod = true;
-                ezaMod = true;
-                fdMod = true;
-                fontsMod = false;
-                fzfMod = true;
-                ghMod = true;
-                gitMod = true;
-                mpvMod = false;
-                neovimMod = true;
-                ripgrepMod = true;
-                vscodeMod = false;
-                weztermMod = false;
-                yaziMod = true;
-                zedMod = false;
-                zoxideMod = true;
-                zshMod = true;
+                  batMod = true;
+                  ezaMod = true;
+                  fdMod = true;
+                  fontsMod = false;
+                  fzfMod = true;
+                  ghMod = true;
+                  gitMod = true;
+                  mpvMod = false;
+                  neovimMod = true;
+                  ripgrepMod = true;
+                  tmuxMod = true;
+                  vscodeMod = false;
+                  weztermMod = false;
+                  yaziMod = true;
+                  zedMod = false;
+                  zoxideMod = true;
+                  zshMod = true;
                 }
               ];
               home-manager.users.server = import ./modules/users/server.nix;

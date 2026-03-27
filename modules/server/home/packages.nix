@@ -14,7 +14,6 @@
     nixfmt
     python314
     rustup
-    tmux
     tokei
     tree-sitter
     unzip
