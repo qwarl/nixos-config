@@ -17,6 +17,6 @@
     ./yazi
     ./zed.nix
     ./zoxide.nix
-    ./zsh.nix
+    ./zsh
   ];
 }
