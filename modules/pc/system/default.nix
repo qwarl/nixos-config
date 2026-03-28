@@ -2,7 +2,6 @@
   imports = [
     ./fcitx5.nix
     ./hardware-accelerated.nix
-    ./nix-ld.nix
     ./hyprland.nix
     ./auto-mount.nix
     ./documentation.nix

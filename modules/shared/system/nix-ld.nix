@@ -1,4 +1,5 @@
-{ lib, config, ... }:{
+{ lib, config, ... }:
+{
 
   options = {
     nixLd = lib.mkEnableOption "enables Nix LD for running unpatched dynamic binaries";
