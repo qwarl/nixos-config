@@ -13,6 +13,7 @@
     nodejs_25
     nixfmt
     python314
+    qwen-code
     rustup
     tokei
     tree-sitter
