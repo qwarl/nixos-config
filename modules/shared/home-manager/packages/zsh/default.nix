@@ -45,20 +45,7 @@
       initContent =
         let
           zshConfig = lib.mkOrder 1000 ''
-            source /home/server/nixos-config/modules/shared/home-manager/packages/zsh/config/custom.zsh
-
-            # Delete old system generations, keep the latest N
-            clean_build() {
-              if [[ -z "$1" ]]; then
-                echo "Usage: clean_build <number_of_generations_to_keep>"
-                return 1
-              fi
-
-              local keep=$1
-              echo "Deleting old generations, keeping the latest $keep..."
-              sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +$keep
-              sudo nix-collect-garbage -d
-            }
+            source "$FLAKE_PATH/modules/shared/home-manager/packages/zsh/config/custom.zsh"
 
             # load spaceship prompt theme
             source ${pkgs.spaceship-prompt}/share/zsh/themes/spaceship.zsh-theme;
@@ -82,6 +69,5 @@
         ];
       };
     };
- # home.file.".zshrc".source = config.lib.file.mkOutOfStoreSymlink "/home/server/nixos-config/modules/shared/home-manager/pakcages/zsh/config/.zshrc";
   };
 }
