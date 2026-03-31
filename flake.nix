@@ -100,8 +100,8 @@
               home-manager.sharedModules = [
                 {
                   imports = [
-                    ./modules/pc/home/packages.nix
-                    ./modules/shared/home-manager/packages
+                    ./modules/pc/home
+                    ./modules/shared/home-manager
                   ];
 
                   batMod = true;
@@ -148,8 +148,8 @@
               home-manager.sharedModules = [
                 {
                   imports = [
-                    ./modules/server/home/packages.nix
-                    ./modules/shared/home-manager/packages
+                    ./modules/server/home
+                    ./modules/shared/home-manager
                   ];
 
                   batMod = true;
