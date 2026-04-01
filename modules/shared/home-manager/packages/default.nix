@@ -11,6 +11,7 @@
     ./mpv
     ./neovim
     ./ripgrep.nix
+    ./sops.nix
     ./tmux
     ./vscode.nix
     ./wezterm.nix
