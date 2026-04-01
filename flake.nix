@@ -20,11 +20,6 @@
       flake = false;
     };
 
-    neovim-config = {
-      url = "github:qwarl/nvim/nuke";
-      flake = false;
-    };
-
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
@@ -45,7 +40,6 @@
       nixpkgs,
       home-manager,
       plasma-manager,
-      wezterm-config,
       ...
     }@inputs:
     let

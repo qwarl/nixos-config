@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  inputs,
   ...
 }:
 {
@@ -14,6 +13,7 @@
       enable = true;
       defaultEditor = true;
     };
-    home.file.".config/nvim".source = inputs.neovim-config;
+      xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/shared/home-manager/packages/neovim/config";
+
   };
 }
