@@ -8,6 +8,7 @@
       collect_garbage = "sudo nix-collect-garbage -d";
       lg = "lazygit";
       zed = "zeditor";
+      nix-list = "nixos-rebuild list-generations";
     };
   };
 }

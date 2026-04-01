@@ -28,6 +28,7 @@
       url = "github:Jas-SinghFSU/HyprPanel";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     fcitx5-lotus = {
       url = "github:LotusInputMethod/fcitx5-lotus";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,7 +54,7 @@
           { name = "quan"; }
           { name = "server"; }
         ];
-        stateVersion = "25.05";
+        stateVersion = "26.05";
         configPaths = [
           { path = "/mnt/common/nixos"; }
           { path = "/home/server/nixos-config"; }
@@ -149,18 +150,13 @@
                   batMod = true;
                   ezaMod = true;
                   fdMod = true;
-                  fontsMod = false;
                   fzfMod = true;
                   ghMod = true;
                   gitMod = true;
-                  mpvMod = false;
                   neovimMod = true;
                   ripgrepMod = true;
                   tmuxMod = true;
-                  vscodeMod = false;
-                  weztermMod = false;
                   yaziMod = true;
-                  zedMod = false;
                   zoxideMod = true;
                   zshMod = true;
                 }

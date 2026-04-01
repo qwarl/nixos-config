@@ -20,7 +20,6 @@
     unzip
     wget
     wl-clipboard
-    ntfs3g
     lm_sensors
     mediainfo
     exiftool

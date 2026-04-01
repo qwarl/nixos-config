@@ -48,9 +48,6 @@ update() {
         return 1
     fi
 
-    local flake_path
-    flake_path=$(get_flake_path "$1") || return 1
-
     sudo nix flake update --flake "$FLAKE_PATH"
     sudo nixos-rebuild switch --flake "$FLAKE_PATH#$1"
 }

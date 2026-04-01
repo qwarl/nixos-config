@@ -10,7 +10,7 @@
 
       listener = [
         {
-          timeout = 600; # 5min
+          timeout = 1200; # 5min
           on-timeout = "loginctl lock-session"; # lock screen when timeout has passed
         }
         {
@@ -19,7 +19,7 @@
           on-resume = "hyprctl dispatch dpms on"; # screen on when activity is detected
         }
         {
-          timeout = 630; # 5.5 min
+          timeout = 1800; # 5.5 min
           on-timeout = "systemctl suspend"; # suspend pc
         }
       ];

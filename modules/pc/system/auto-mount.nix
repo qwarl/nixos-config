@@ -1,4 +1,5 @@
-{ lib, config, ... }:{
+{ lib, config, ... }:
+{
 
   options = {
     autoMountDrives = lib.mkEnableOption "enables automatic mounting of external drives";
