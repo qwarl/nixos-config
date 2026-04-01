@@ -1,6 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
-    anydesk
     btop-rocm
     dust
     file
@@ -9,6 +9,7 @@
     floorp-bin
     gamescope
     gcc
+    gemini-cli
     go # for hyprls installs
     jq
     lazygit
@@ -20,17 +21,15 @@
     nixfmt
     python314
     qbittorrent
+    qwen-code
     rustup
     telegram-desktop
     tokei
     tree-sitter
     unzip
-    vscode
     wget
     wl-clipboard
     yt-dlp
-
-    ntfs3g
     oversteer
     deluge
     steam
