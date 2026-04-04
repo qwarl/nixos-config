@@ -175,6 +175,7 @@
   # Enable module options (uncomment as needed)
   fcitx5Mod = true;
   hardwareAccelerated = true;
+  nixLd = true;
   hyprlandModule = true;
   autoMountDrives = true;
   optimizedDocumentation = true;
