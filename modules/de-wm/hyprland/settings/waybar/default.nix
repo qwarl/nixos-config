@@ -15,7 +15,7 @@
         enable = true;
       };
     };
-    home.file.".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "/mnt/common/nixos/modules/de-wm/hyprland/settings/waybar/config";
+    home.file.".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/settings/waybar/config";
 
   };
 }

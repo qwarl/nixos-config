@@ -26,7 +26,7 @@
             "$main, E, exec, $fileManager"
             "Alt, Space, exec, rofi -show drun"
             ", Print, exec, hyprshot -m active -m output --clipboard-only" # capture current screen to clipboard
-            "$main, V, exec, wezterm start --class clipse clipse && /mnt/common/nixos/modules/de-wm/hyprland/settings/scripts/clipse-autopaste"
+            "$main, V, exec, wezterm start --class clipse clipse && ${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/settings/scripts/clipse-autopaste"
           ];
           binds = [
             "Super_L&SHIFT_L, S, exec, hyprshot -m region --clipboard-only"

@@ -11,7 +11,7 @@
       background = [
         {
           monitor = "";
-          path = "/mnt/common/nixos/modules/de-wm/hyprland/wallpapers/daniil-silantev-3pW91fGAKiE-unsplash.jpg";
+          path = "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/wallpapers/daniil-silantev-3pW91fGAKiE-unsplash.jpg";
           blur_passes = 0;
           contrast = 0.8916;
           brightness = 0.8172;
@@ -60,7 +60,7 @@
       image = [
         {
           monitor = "";
-          path = "/mnt/common/nixos/modules/de-wm/hyprland/wallpapers/foreground.png";
+          path = "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/wallpapers/foreground.png";
           size = 700;
           border_size = 0;
           rounding = 0;

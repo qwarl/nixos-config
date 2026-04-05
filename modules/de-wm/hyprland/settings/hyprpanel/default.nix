@@ -130,7 +130,7 @@
 
         wallpaper = {
           enable = false;
-          image = "/mnt/common/nixos/modules/de-wm/hyprland/wallpapers/daniil-silantev-3pW91fGAKiE-unsplash.jpg";
+          image = "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/wallpapers/daniil-silantev-3pW91fGAKiE-unsplash.jpg";
         };
       };
     };
