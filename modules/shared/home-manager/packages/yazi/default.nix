@@ -10,6 +10,6 @@
       enable = true;
     };
     home.file.".config/yazi".source =
-      config.lib.file.mkOutOfStoreSymlink "/mnt/common/nixos/modules/shared/home-manager/packages/yazi/config";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/shared/home-manager/packages/yazi/config";
   };
 }

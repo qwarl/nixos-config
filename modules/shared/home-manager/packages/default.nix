@@ -13,7 +13,7 @@
     ./ripgrep.nix
     ./sops.nix
     ./tmux
-    ./vscode.nix
+    ./vscode
     ./wezterm.nix
     ./yazi
     ./zed.nix

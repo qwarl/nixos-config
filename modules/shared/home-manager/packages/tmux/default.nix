@@ -9,7 +9,7 @@
     home.packages = with pkgs; [
       tmux
     ];
-    xdg.configFile."tmux/tmux.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/server/nixos-config/modules/shared/home-manager/packages/tmux/config/tmux.conf";
+    xdg.configFile."tmux/tmux.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/shared/home-manager/packages/tmux/config/tmux.conf";
   };
 
 }
