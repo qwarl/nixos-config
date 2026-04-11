@@ -15,6 +15,16 @@
         inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     };
 
+    xdg.portal = {
+      enable = true;
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gtk
+        pkgs.kdePackages.xdg-desktop-portal-kde
+      ];
+      config.common.default = [ "gtk" ];
+      config.hyprland.default = [ "gtk" "hyprland" ];
+    };
+
     # Use cachix to speed up hyprland installation
     nix.settings = {
       substituters = [ "https://hyprland.cachix.org" ];
