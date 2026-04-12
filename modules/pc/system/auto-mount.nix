@@ -14,6 +14,7 @@
         "rw"
         "umask=000"
         "nofail"
+        "force"
       ];
     };
   };

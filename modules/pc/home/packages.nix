@@ -44,5 +44,6 @@
     libreoffice
     trash-cli
     tldr
+    spoofdpi
   ];
 }
