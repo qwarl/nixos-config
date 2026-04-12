@@ -2,48 +2,51 @@
 {
   home.packages = with pkgs; [
     btop-rocm
+    deluge
     dust
-    file
+    exiftool
     fastfetch
     ffmpeg
+    file
     floorp-bin
     gamescope
     gcc
     gemini-cli
     go # for hyprls installs
+    imagemagick
     jq
     lazygit
+    libreoffice
+    # llama-cpp-rocm
+    lm_sensors
     lutris
+    mediainfo
     microsoft-edge
     nil
     nixd
-    nodejs_25
     nixfmt
+    nodejs_25
+    oversteer
+    p7zip
+    poppler
     python314
     qbittorrent
     qwen-code
+    rar
+    resvg
+    rustdesk
     rustup
+    spoofdpi
+    steam
     telegram-desktop
+    tldr
     tokei
+    trash-cli
     tree-sitter
     unzip
     wget
     wl-clipboard
     yt-dlp
-    oversteer
-    deluge
-    steam
-    # llama-cpp-rocm
-    lm_sensors
-    mediainfo
-    exiftool
-    poppler
-    resvg
-    rustdesk
-    imagemagick
-    libreoffice
-    trash-cli
-    tldr
-    spoofdpi
+    zip
   ];
 }

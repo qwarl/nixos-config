@@ -5,8 +5,11 @@
     dragon-drop
     grim
     hyprshot
-    kdePackages.dolphin
+    kdePackages.ark
     kdePackages.polkit-kde-agent-1
+    kdePackages.qtsvg
+    kdePackages.ffmpegthumbs
+    kdePackages.kdegraphics-thumbnailers
     pulseaudio
     pavucontrol
     rofi
@@ -20,5 +23,6 @@
     libnotify
   ];
 
+  dolphinMod = true;
   # hyprpanelMod = true;
 }

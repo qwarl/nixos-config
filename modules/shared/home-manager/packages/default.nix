@@ -15,6 +15,7 @@
     ./tmux
     ./vscode
     ./wezterm.nix
+    ./dolphin
     ./yazi
     ./zed.nix
     ./zoxide.nix
