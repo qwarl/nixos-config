@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, info, ... }:
 {
   imports = [
     ../../modules/pc/home/packages.nix
@@ -6,7 +6,7 @@
   ];
   home = {
     homeDirectory = "/home/kde";
-    stateVersion = "25.05";
+    stateVersion = info.stateVersion;
     username = "kde";
   };
 

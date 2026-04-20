@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, info, ... }:
 {
   imports = [
     ../../modules/vm/home/packages.nix
@@ -6,7 +6,7 @@
   ];
   home = {
     homeDirectory = "/home/quan";
-    stateVersion = "25.05";
+    stateVersion = info.stateVersion;
     username = "quan";
   };
 

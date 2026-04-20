@@ -38,6 +38,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    llama-cpp-rocm = {
+      url = "path:./pkgs/llama-cpp-rocm";
+    };
   };
 
   outputs =
@@ -66,11 +70,25 @@
         ];
         email = "quannngoc98@gmail.com";
       };
+
+      # Import các overlays
+      overlays = import ./overlays { inherit inputs; };
+
+      # Module dùng chung để nạp overlays
+      common-modules = [
+        {
+          nixpkgs.overlays = [
+            overlays.additions
+            overlays.modifications
+          ];
+        }
+      ];
     in
     {
       nixosConfigurations = {
         vm = nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = { inherit inputs info; };
 
           modules = [
             ./hosts/vm/configuration.nix
@@ -81,6 +99,7 @@
               home-manager.useUserPackages = true;
               home-manager.sharedModules = [ plasma-manager.homeModules.plasma-manager ];
               home-manager.users.quan = import ./modules/users/quan.nix;
+              home-manager.extraSpecialArgs = { inherit inputs info; };
             }
           ];
         };
@@ -88,7 +107,7 @@
           inherit system;
           specialArgs = { inherit inputs info; };
 
-          modules = [
+          modules = common-modules ++ [
             ./hosts/pc/configuration.nix
 
             home-manager.nixosModules.home-manager

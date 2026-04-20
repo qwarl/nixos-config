@@ -1,4 +1,5 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
+
 {
   home.packages = with pkgs; [
     btop-rocm
@@ -48,5 +49,6 @@
     wl-clipboard
     yt-dlp
     zip
+    llama-cpp-rocm
   ];
 }
