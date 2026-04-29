@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Cấu hình các class ứng dụng cần đóng
+APPS=("org.telegram.desktop" "deluge" "org.qbittorrent.qBittorrent")
+
+MAX_SECONDS=10
+COUNTER=0
+
+while [ $COUNTER -lt $MAX_SECONDS ]; do
+  # Duyệt qua danh sách ứng dụng
+  for APP in "${APPS[@]}"; do
+    # Kiểm tra xem class đó có đang mở cửa sổ nào không
+    if hyprctl clients | grep -q "class: $APP"; then
+      sleep 1
+      hyprctl dispatch closewindow "class:$APP"
+    fi
+  done
+
+  # Chờ 1 giây rồi đếm tiếp
+  sleep 1
+  ((COUNTER++))
+done

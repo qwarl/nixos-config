@@ -1,54 +1,93 @@
 #!/usr/bin/env bash
-# ~/.local/bin/screenshot-rofi
 set -euo pipefail
 
-# nơi lưu mặc định (hyprshot cũng dùng HYPRSHOT_DIR nếu set)
+# Thư mục lưu trữ
 PICDIR="$HOME/Pictures/Screenshots"
-mkdir -p "$PICDIR"
+VIDDIR="$HOME/Videos/Recordings"
+mkdir -p "$PICDIR" "$VIDDIR"
 
-# tùy chỉnh tên file
-timestamp="$(date +%d-%m-%Y_%H-%M-%S).png"
+# Tên file
+timestamp="$(date +%d-%m-%Y_%H-%M-%S)"
 
-# danh sách menu
+# Kiểm tra xem có đang quay màn hình không
+if pgrep -x "wf-recorder" > /dev/null; then
+    notify-send "Recording" "Stopping recording..."
+    pkill -INT -x wf-recorder
+    exit 0
+fi
+
+# Danh sách menu
 OPTIONS=(
-  "  Area — copy to clipboard"
   "  Area — save file"
-  "  Window — copy to clipboard"
+  "  Area — copy to clipboard"
   "  Window — save file"
-  "󰍹  Active monitor — copy to clipboard"
-  "󰍹  Active monitor — save file"
-  "󰍺  Full screen — copy to clipboard"
-  "󰍺  Full screen — save file"
-  "󰜺  Cacel"
+  "  Window — copy to clipboard"
+  "󰍹  Monitor — save file"
+  "󰍹  Monitor — copy to clipboard"
+  "󰍺  Full Screen — save file"
+  "󰍺  Full Screen — copy to clipboard"
+  "󰑋  Area — Record (MP4 H.265)"
+  "󰑋  Window — Record (MP4 H.265)"
+  "󰑋  Monitor — Record (MP4 H.265)"
+  "󰑋  Full Screen — Record (MP4 H.265)"
+  "󰜺  Cancel"
 )
 
-CHOICE="$(printf '%s\n' "${OPTIONS[@]}" | rofi -dmenu -i -p "Screenshot")" || exit 0
+CHOICE="$(printf '%s\n' "${OPTIONS[@]}" | rofi -dmenu -i -p "Screen Action")" || exit 0
 
 case "$CHOICE" in
+  "  Area — save file")
+    hyprshot -m region -o "$PICDIR" -f "$timestamp.png" || notify-send "hyprshot failed"
+    ;;
   "  Area — copy to clipboard")
     hyprshot -m region --clipboard-only || notify-send "hyprshot failed"
     ;;
-  "  Area — save file")
-    hyprshot -m region -o "$PICDIR" -f "$timestamp" || notify-send "hyprshot failed"
+  "  Window — save file")
+    hyprshot -m window -o "$PICDIR" -f "$timestamp.png" || notify-send "hyprshot failed"
     ;;
   "  Window — copy to clipboard")
     hyprshot -m window --clipboard-only || notify-send "hyprshot failed"
     ;;
-  "  Window — save file")
-    hyprshot -m window -o "$PICDIR" -f "$timestamp" || notify-send "hyprshot failed"
+  "󰍹  Monitor — save file")
+    hyprshot -m active -m output -o "$PICDIR" -f "$timestamp.png" || notify-send "hyprshot failed"
     ;;
-  "󰍹  Active monitor — copy to clipboard")
+  "󰍹  Monitor — copy to clipboard")
     hyprshot -m active -m output --clipboard-only || notify-send "hyprshot failed"
     ;;
-  "󰍹  Active monitor — save file")
-    hyprshot -m active -m output -o "$PICDIR" -f "$timestamp" || notify-send "hyprshot failed"
+  "󰍺  Full Screen — save file")
+    hyprshot -m output -o "$PICDIR" -f "$timestamp.png" || notify-send "hyprshot failed"
     ;;
-  "󰍺  Full screen — copy to clipboard")
+  "󰍺  Full Screen — copy to clipboard")
     hyprshot -m output --clipboard-only || notify-send "hyprshot failed"
     ;;
-  "󰍺  Full screen — save file")
-    hyprshot -m output -o "$PICDIR" -f "$timestamp" || notify-send "hyprshot failed"
+  "󰑋  Area — Record (MP4 H.265)")
+    notify-send "Recording" "Select area to start recording"
+    wf-recorder -g "$(slurp)" -c libx265 -f "$VIDDIR/$timestamp.mp4" &
+    ;;
+  "󰑋  Window — Record (MP4 H.265)")
+    notify-send "Recording" "Click on a window to start recording"
+    # Lấy danh sách tất cả các window đang hiển thị và dùng slurp để chọn
+    GEOM=$(hyprctl clients -j | jq -r '.[] | select(.workspace.id != -1) | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | slurp)
+    if [ -n "$GEOM" ]; then
+        wf-recorder -g "$GEOM" -c libx265 -f "$VIDDIR/$timestamp.mp4" &
+    else
+        notify-send "Recording" "Selection cancelled"
+        exit 0
+    fi
+    ;;
+  "󰑋  Monitor — Record (MP4 H.265)")
+    notify-send "Recording" "Starting monitor recording"
+    wf-recorder -o "$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')" -c libx265 -f "$VIDDIR/$timestamp.mp4" &
+    ;;
+  "󰑋  Full Screen — Record (MP4 H.265)")
+    notify-send "Recording" "Starting full screen recording"
+    wf-recorder -c libx265 -f "$VIDDIR/$timestamp.mp4" &
     ;;
   "󰜺  Cancel")
+    exit 0
     ;;
 esac
+
+if [[ "$CHOICE" == *"Record"* ]]; then
+    notify-send "Recording" "Recording started. Click again to stop."
+fi

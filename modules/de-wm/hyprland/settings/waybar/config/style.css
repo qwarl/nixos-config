@@ -1,4 +1,5 @@
 @import "themes/mocha.css";
+@import "colors.css";
 
 * {
     font-family: FiraCode Nerd Font;
@@ -54,7 +55,8 @@ button:hover {
 #backlight:hover,
 #custom-swaync:hover,
 #idle_inhibitor:hover,
-#custom-notification:hover {
+#custom-notification:hover,
+#custom-warp:hover {
     background-color: @mantle;
 }
 
@@ -112,7 +114,8 @@ button:hover {
 #mode,
 #custom-weather,
 #idle_inhibitor,
-#power-profiles-daemon {
+#power-profiles-daemon,
+#custom-warp {
     background: @base;
     padding: 1px 10px;
     margin-top: 5px;
@@ -177,18 +180,30 @@ button:hover {
     margin-top: 5px;
     margin-right: 5px;
 }
-
 #custom-weather {
     color: @sapphire;
     padding: 1px 6px 1px 8px;
 }
 
+#custom-screenshot {
+    color: @yellow;
+}
+
+#custom-warp {
+    color: @red;
+}
+
+#custom-warp.connected {
+    color: @green;
+}
+
+#custom-warp.connecting {
+    color: @yellow;
+}
+
 #custom-power {
     color: @mauve;
     background-color: @base;
-    /*margin-right: 5px;
-    margin-top:5px;*/
-    /*padding: 0px 0px 0px 5px;*/
 }
 
 #battery {

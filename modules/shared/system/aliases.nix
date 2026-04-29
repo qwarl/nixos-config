@@ -9,6 +9,7 @@
       lg = "lazygit";
       zed = "zeditor";
       nix-list = "nixos-rebuild list-generations";
+      shutdown = "systemctl poweroff";
     };
   };
 }

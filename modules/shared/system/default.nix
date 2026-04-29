@@ -6,5 +6,6 @@
     ./nix-ld.nix
     ./shell.nix
     ./tailscale.nix
+    ./warp.nix
   ];
 }

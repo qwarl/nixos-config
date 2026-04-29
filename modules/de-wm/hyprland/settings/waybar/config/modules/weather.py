@@ -57,8 +57,13 @@ WEATHER_CODES = {
 
 data = {}
 
-
-weather = requests.get("https://wttr.in/hochiminh?format=j1").json()
+try:
+    weather = requests.get("https://wttr.in/hochiminh?format=j1", timeout=10).json()
+except Exception:
+    data['text'] = "󰖪  No Data"
+    data['tooltip'] = "Failed to connect to wttr.in"
+    print(json.dumps(data))
+    exit(0)
 
 
 def format_time(time):

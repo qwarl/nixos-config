@@ -4,7 +4,7 @@
 # This script checks for NixOS updates and outputs JSON for Waybar integration
 
     # ===== Configuration =====
-    UPDATE_INTERVAL=7199  # Check interval in seconds (1 hour)
+    UPDATE_INTERVAL=3600  # Check interval in seconds (1 hour)
     NIXOS_CONFIG_PATH="/mnt/common/nixos"  # Path to NixOS configuration
     CACHE_DIR="$HOME/.cache"
     STATE_FILE="$CACHE_DIR/nix-update-state"
@@ -207,34 +207,39 @@
         if [ "$UPDATE_LOCK_FILE" = "true" ]; then
             # Use the config directory directly
             cd "$NIXOS_CONFIG_PATH" || return 1
-            nix flake update
-            # Capture stderr and extract the error line
-            error_output=$(nix build .#nixosConfigurations."$HOSTNAME".config.system.build.toplevel 2>&1)
-            if [ "$?" -eq 0 ]; then
-                updates=$(nvd diff /run/current-system ./result | grep -e '\[U' | wc -l)
-                tooltip=$(nvd diff /run/current-system ./result | grep -e '\[U' | awk '{ for (i=3; i<NF; i++) printf $i " "; if (NF >= 3) print $NF; }' | awk '{printf "%s%s", (NR>1 ? "\\n" : ""), $0}')
-            else
-                # Extract just the error line starting with "error:"
-                error_line=$(echo "$error_output" | grep "^       error:" | head -1 | sed 's/^[[:space:]]*//')
-                echo "$error_line" > "$LAST_RUN_TOOLTIP"
-                return 1
-            fi
         else
             # Use a temp directory to avoid modifying lock file
             cp -r "$NIXOS_CONFIG_PATH"/* "$tempdir"
             cd "$tempdir" || return 1
-            nix flake update
-            # Capture stderr and extract the error line
-            error_output=$(nix build .#nixosConfigurations."$HOSTNAME".config.system.build.toplevel 2>&1)
-            if [ "$?" -eq 0 ]; then
-                updates=$(nvd diff /run/current-system ./result | grep -e '\[U' | wc -l)
-                tooltip=$(nvd diff /run/current-system ./result | grep -e '\[U' | awk '{ for (i=3; i<NF; i++) printf $i " "; if (NF >= 3) print $NF; }' | awk '{printf "%s%s", (NR>1 ? "\\n" : ""), $0}')
-            else
-                # Extract just the error line starting with "error:"
-                error_line=$(echo "$error_output" | grep "^       error:" | head -1 | sed 's/^[[:space:]]*//')
-                echo "$error_line" > "$LAST_RUN_TOOLTIP"
-                return 1
-            fi
+        fi
+
+        nix flake update
+        # Use --dry-run to avoid building and save CPU
+        error_output=$(nix build .#nixosConfigurations."$HOSTNAME".config.system.build.toplevel --dry-run 2>&1)
+        
+        if [ "$?" -eq 0 ]; then
+            # Extract package names from the dry-run output
+            # 1. Get lines starting with /nix/store
+            # 2. Remove hash and path prefix
+            # 3. Remove .drv suffix
+            # 4. Filter out common internal NixOS noise to get a real package count
+            local filtered_paths=$(echo "$error_output" | grep "^  /nix/store" | \
+                sed -E 's|^  /nix/store/[a-z0-9]{32}-||' | \
+                sed 's/\.drv$//' | \
+                grep -vE "^(builder\.pl|system-path|dbus-1|X-Restart-Triggers|unit-.*\.service|nixos-tmpfiles\.d|perl-.*-env|firewall-start|etc|initrd-.*|append-initrd-secrets|unit-script-.*|script|nixos-system-.*)$" | \
+                sort -u)
+
+            updates=$(echo "$filtered_paths" | grep -v "^$" | wc -l)
+            tooltip=$(echo "$filtered_paths" | grep -v "^$" | awk '{printf "%s%s", (NR>1 ? "\\n" : ""), $0}')
+            
+            if [ -z "$updates" ]; then updates=0; fi
+            if [ "$updates" -eq 0 ]; then tooltip="System updated"; fi
+        else
+            # Extract just the error line starting with "error:"
+            error_line=$(echo "$error_output" | grep "^       error:" | head -1 | sed 's/^[[:space:]]*//')
+            if [ -z "$error_line" ]; then error_line="Evaluation failed"; fi
+            echo "$error_line" > "$LAST_RUN_TOOLTIP"
+            return 1
         fi
 
         # Save results
