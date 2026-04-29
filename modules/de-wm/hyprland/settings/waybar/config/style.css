@@ -41,10 +41,10 @@ button:hover {
 
 #custom-screenshot:hover,
 #language:hover,
-#custom-gpu-usage:hover,
+#gpuinfo:hover,
+#cpuinfo:hover,
 #pulseaudio:hover,
 #cava:hover,
-#temperature:hover,
 #clock:hover,
 #custom-gpt:hover,
 #custom-weather:hover,
@@ -96,17 +96,14 @@ button:hover {
 #privacy-item,
 #custom-screenshot,
 #language,
-#custom-gpu-usage,
 #custom-nix-updates,
 #clock,
 #battery,
-#cpu,
 #disk,
 #custom-swaync,
 #backlight,
 #pulseaudio,
 #cava,
-#temperature,
 #group-power,
 #network,
 #custom-notification,
@@ -119,6 +116,48 @@ button:hover {
     background: @base;
     padding: 1px 10px;
     margin-top: 5px;
+}
+
+#cpuinfo,
+#gpuinfo {
+    background: @base;
+    padding: 1px 6px;
+    margin-top: 5px;
+}
+
+#cpuinfo #cpu,
+#cpuinfo #custom-cpu-temp,
+#gpuinfo #custom-gpu-usage,
+#gpuinfo #custom-gpu-temp {
+    background: transparent;
+    padding: 0 2px;
+    margin: 0;
+}
+
+/* Màu mặc định cho CPU (Xanh) */
+#cpu, #custom-cpu-temp {
+    color: @green;
+}
+
+/* Màu mặc định cho GPU (Xanh) */
+#custom-gpu-usage, #custom-gpu-temp {
+    color: @green;
+}
+
+/* Trạng thái Warning (Vàng) */
+#cpu.warning,
+#custom-cpu-temp.warning,
+#custom-gpu-usage.warning,
+#custom-gpu-temp.warning {
+    color: @yellow;
+}
+
+/* Trạng thái Critical (Đỏ) */
+#cpu.critical,
+#custom-cpu-temp.critical,
+#custom-gpu-usage.critical,
+#custom-gpu-temp.critical {
+    color: @red;
 }
 
 #window,
@@ -179,10 +218,6 @@ button:hover {
 #power-profiles-daemon {
     padding-right: 15px;
     color: @crust;
-}
-
-#cpu {
-    color: @yellow;
 }
 
 #disk {
@@ -264,10 +299,6 @@ button:hover {
 
 #custom-nix-updates {
     color: @sapphire;
-}
-
-#custom-gpu-usage {
-    color: @green;
 }
 
 #custom-screenshot {

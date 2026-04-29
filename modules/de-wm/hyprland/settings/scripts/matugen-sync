@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+# Default wallpaper fallback
+DEFAULT_WALLPAPER="/mnt/common/nixos/modules/de-wm/hyprland/wallpapers/daniil-silantev-3pW91fGAKiE-unsplash.jpg"
+
+# Get current wallpaper path
+RAW_OUTPUT=$(hyprctl hyprpaper listactive 2>/dev/null)
+if [ $? -eq 0 ] && [ -n "$RAW_OUTPUT" ]; then
+    WALLPAPER=$(echo "$RAW_OUTPUT" | head -n 1 | cut -d '=' -f 2 | sed "s/^[[:space:]]*//;s/[[:space:]]*$//;s/^['\"]//;s/['\"]$//")
+else
+    WALLPAPER="$DEFAULT_WALLPAPER"
+fi
+
+# Define Matugen Style Types
+declare -A SCHEMES
+SCHEMES=(
+    ["󰏘 Tonal Spot (Cân bằng)"]="scheme-tonal-spot"
+    ["󰃟 Expressive (Rực rỡ)"]="scheme-expressive"
+    ["󰔎 Fruit Salad (Đa sắc)"]="scheme-fruit-salad"
+    ["󰗊 Rainbow (Cầu vồng)"]="scheme-rainbow"
+    ["󰵈 Vibrant (Sống động)"]="scheme-vibrant"
+    ["󰅟 Neutral (Trung tính)"]="scheme-neutral"
+    ["󰄰 Monochrome (Đơn sắc)"]="scheme-monochrome"
+)
+
+# Create Rofi menu to pick the STYLE
+CHOICE=$(printf "%s\n" "${!SCHEMES[@]}" | rofi -dmenu -i -p "󰏘 Chọn phong cách màu" -config "~/.config/rofi/config.rasi")
+
+# If user cancels, exit
+if [ -z "$CHOICE" ]; then
+    exit 0
+fi
+
+SELECTED_TYPE=${SCHEMES[$CHOICE]}
+
+echo "Generating $SELECTED_TYPE from: $WALLPAPER"
+
+# Run Matugen
+# --quiet: no terminal prompts
+# --source-color-index 0: auto-pick the best dominant color
+if command -v matugen >/dev/null; then
+    matugen --quiet image "$WALLPAPER" -m dark -t "$SELECTED_TYPE" --source-color-index 0
+    
+    # Reload Waybar CSS
+    pkill -USR2 waybar
+    
+    # Send notification
+    if command -v notify-send >/dev/null; then
+        notify-send "Matugen" "Đã áp dụng phong cách $CHOICE"
+    fi
+else
+    echo "Error: matugen not found."
+    exit 1
+fi

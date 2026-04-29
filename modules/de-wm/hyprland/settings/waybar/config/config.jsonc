@@ -9,13 +9,25 @@
   "modules-left": [
     "hyprland/workspaces",
     // "memory",
-    "cpu",
-    "custom/gpu-usage",
-    // "custom/weather1",
-    "temperature",
+    "group/cpuinfo",
+    "group/gpuinfo",
     "pulseaudio",
     "pulseaudio#microphone"
   ],
+  "group/cpuinfo": {
+    "orientation": "horizontal",
+    "modules": [
+      "cpu",
+      "custom/cpu-temp"
+    ]
+  },
+  "group/gpuinfo": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/gpu-usage",
+      "custom/gpu-temp"
+    ]
+  },
   "modules-center": [
     "custom/screenshot",
     "custom/weather",
@@ -28,6 +40,7 @@
     "hyprland/language",
     // "pulseaudio/slider",
     "custom/nix-updates",
+    "custom/warp",
     "network",
     "backlight",
     "battery",
@@ -82,8 +95,15 @@
     "delay": 5,
     "tooltip": true,
     "interval": 300,
-    "exec": "nix run ~/.config/waybar/modules#weather -- ~/.config/waybar/modules/weather.py",
+    "exec": "nix run /mnt/common/nixos/modules/de-wm/hyprland/settings/waybar/config/modules#weather -- /mnt/common/nixos/modules/de-wm/hyprland/settings/waybar/config/modules/weather.py",
     "return-type": "json"
+  },
+  "custom/warp": {
+    "format": "{}",
+    "interval": 2,
+    "return-type": "json",
+    "exec": "status=$(warp-cli status 2>/dev/null | grep -o 'Connected\\|Disconnected\\|Connecting' || echo 'Disconnected'); if [ \"$status\" = \"Connected\" ]; then printf '{\"text\":\"󰖂\", \"class\":\"connected\", \"tooltip\":\"WARP Connected\"}\\n'; elif [ \"$status\" = \"Connecting\" ]; then printf '{\"text\":\"󱑠\", \"class\":\"connecting\", \"tooltip\":\"WARP Connecting...\"}\\n'; else printf '{\"text\":\"󰖄\", \"class\":\"disconnected\", \"tooltip\":\"WARP Disconnected\"}\\n'; fi",
+    "on-click": "status=$(warp-cli status 2>/dev/null | grep -o 'Connected\\|Disconnected'); if [ \"$status\" = \"Connected\" ]; then warp-cli disconnect; else warp-cli connect; fi"
   },
   "idle_inhibitor": {
     "format": "{icon} ",
@@ -234,23 +254,28 @@
     "tooltip": false,
     "on-click": "systemctl suspend"
   },
-  "temperature": {
-      // "thermal-zone": 2,
-      "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-      "interval": 2,
-      "critical-threshold": 95,
-      // "format-critical": "  {temperatureC}°C",
-      "format": "{icon}  {temperatureC}°C",
-      "format-icons": [
-        "",
-        "",
-        " ",
-        " ☢️"
-      ]
-  },
   "cpu": {
-       "interval": 2,
-       "format": "  {usage}%"
+    "interval": 2,
+    "format": "  {usage}%",
+    "states": {
+      "warning": 50,
+      "critical": 80
+    }
+  },
+  "custom/gpu-usage": {
+    "exec": "usage=$(cat /sys/class/drm/card1/device/gpu_busy_percent); if [ \"$usage\" -gt 80 ]; then c=\"critical\"; elif [ \"$usage\" -gt 50 ]; then c=\"warning\"; else c=\"normal\"; fi; printf '{\"text\":\"󰾲 %s%%\",\"class\":\"%s\"}\\n' \"$usage\" \"$c\"",
+    "return-type": "json",
+    "interval": 2
+  },
+  "custom/cpu-temp": {
+    "exec": "temp=$(cat /sys/class/hwmon/hwmon2/temp1_input); temp=$((temp / 1000)); if [ \"$temp\" -gt 80 ]; then c=\"critical\"; elif [ \"$temp\" -gt 60 ]; then c=\"warning\"; else c=\"normal\"; fi; printf '{\"text\":\" %s°C\",\"class\":\"%s\"}\\n' \"$temp\" \"$c\"",
+    "return-type": "json",
+    "interval": 2
+  },
+  "custom/gpu-temp": {
+    "exec": "temp=$(cat /sys/class/hwmon/hwmon1/temp1_input); temp=$((temp / 1000)); if [ \"$temp\" -gt 80 ]; then c=\"critical\"; elif [ \"$temp\" -gt 60 ]; then c=\"warning\"; else c=\"normal\"; fi; printf '{\"text\":\" %s°C\",\"class\":\"%s\"}\\n' \"$temp\" \"$c\"",
+    "return-type": "json",
+    "interval": 2
   },
   "pulseaudio#microphone": {
     "format": "{format_source}",
@@ -287,6 +312,7 @@
     "format-ethernet": "󰈀",
     "format": "{ifname}",
     "format-wifi": "󰖩  {essid}",
+
     "on-click": "~/.config/scripts/rofi-scripts/wifi-script/rofi-wifi-menu.sh",
     "format-disconnected": "󰖪",
     "tooltip-format": "{ifname} via {gwaddr}",
@@ -310,6 +336,13 @@
           "disabled": "󰚰",
           "error": ""
       }
+  },
+  "custom/warp": {
+    "format": "{}",
+    "interval": 2,
+    "return-type": "json",
+    "exec": "status=$(warp-cli status | grep -o 'Connected\\|Disconnected\\|Connecting'); if [ \"$status\" = \"Connected\" ]; then printf '{\"text\":\"󰖂\", \"class\":\"connected\", \"tooltip\":\"WARP Connected\"}\\n'; elif [ \"$status\" = \"Connecting\" ]; then printf '{\"text\":\"󱑠\", \"class\":\"connecting\", \"tooltip\":\"WARP Connecting...\"}\\n'; else printf '{\"text\":\"󰖄\", \"class\":\"disconnected\", \"tooltip\":\"WARP Disconnected\"}\\n'; fi",
+    "on-click": "status=$(warp-cli status | grep -o 'Connected\\|Disconnected'); if [ \"$status\" = \"Connected\" ]; then warp-cli disconnect; else warp-cli connect; fi"
   },
   "privacy": {
 	"modules": [

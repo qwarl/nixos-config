@@ -9,5 +9,6 @@
     ./settings/hyprpaper
     ./settings/gtk-icon
     ./settings/waybar
+    ./settings/matugen
   ];
 }
