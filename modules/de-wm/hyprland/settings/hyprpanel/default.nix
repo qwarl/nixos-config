@@ -12,7 +12,7 @@
 
   config = lib.mkIf config.hyprpanelMod {
     programs.hyprpanel = {
-      package = inputs.hyprpanel.packages.${pkgs.system}.default;
+      package = inputs.hyprpanel.packages.${pkgs.stdenv.hostPlatform.system}.default;
       enable = true;
       systemd = {
         enable = true;

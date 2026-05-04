@@ -5,7 +5,7 @@
 
   outputs = { self, nixpkgs }: let
     system = "x86_64-linux";
-    pkgs = import nixpkgs { inherit system; };
+    pkgs = import nixpkgs { system = system; };
   in {
     packages.${system}.weather = pkgs.mkShell {
       packages = [

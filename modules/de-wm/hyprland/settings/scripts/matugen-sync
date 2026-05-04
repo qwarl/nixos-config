@@ -1,52 +1,79 @@
 #!/usr/bin/env bash
 
-# Default wallpaper fallback
-DEFAULT_WALLPAPER="/mnt/common/nixos/modules/de-wm/hyprland/wallpapers/daniil-silantev-3pW91fGAKiE-unsplash.jpg"
+# Thứ tự ưu tiên lấy hình nền:
+# 1. Tham số $1 (nếu là file tồn tại)
+# 2. hyprctl hyprpaper (nếu không lỗi protocol)
+# 3. Quét dòng path= trong ~/.config/hypr/hyprpaper.conf
 
-# Get current wallpaper path
-RAW_OUTPUT=$(hyprctl hyprpaper listactive 2>/dev/null)
-if [ $? -eq 0 ] && [ -n "$RAW_OUTPUT" ]; then
-    WALLPAPER=$(echo "$RAW_OUTPUT" | head -n 1 | cut -d '=' -f 2 | sed "s/^[[:space:]]*//;s/[[:space:]]*$//;s/^['\"]//;s/['\"]$//")
+if [ -n "$1" ] && [ -f "$1" ]; then
+    WALLPAPER="$1"
+    SELECTED_TYPE="${2:-scheme-tonal-spot}"
 else
-    WALLPAPER="$DEFAULT_WALLPAPER"
+    SELECTED_TYPE="${1:-scheme-tonal-spot}"
+    RAW_OUTPUT=$(hyprctl hyprpaper listactive 2>/dev/null)
+    
+    if [ $? -eq 0 ] && [ -n "$RAW_OUTPUT" ] && [[ ! "$RAW_OUTPUT" == *"error"* ]]; then
+        WALLPAPER=$(echo "$RAW_OUTPUT" | tail -n 1 | sed 's/.* = //')
+    else
+        # Fallback: Quét dòng path= trong file config của bạn
+        CONFIG_FILE="$HOME/.config/hypr/hyprpaper.conf"
+        if [ -f "$CONFIG_FILE" ]; then
+            WALLPAPER=$(grep "path=" "$CONFIG_FILE" | head -n 1 | sed 's/.*path=//;s/^[[:space:]]*//;s/[[:space:]]*$//')
+        fi
+    fi
 fi
+
+# Kiểm tra nếu không tìm thấy hình nền hoặc file không tồn tại
+if [ -z "$WALLPAPER" ]; then
+    echo "Lỗi: Không tìm thấy đường dẫn hình nền từ hyprctl hoặc hyprpaper.conf"
+    exit 1
+fi
+
+if [ ! -f "$WALLPAPER" ]; then
+    echo "Lỗi: File hình nền không tồn tại: $WALLPAPER"
+    exit 1
+fi
+
+echo "----------------------------------------"
+echo "Wallpaper đang sử dụng: $WALLPAPER"
+echo "----------------------------------------"
 
 # Define Matugen Style Types
-declare -A SCHEMES
-SCHEMES=(
-    ["󰏘 Tonal Spot (Cân bằng)"]="scheme-tonal-spot"
-    ["󰃟 Expressive (Rực rỡ)"]="scheme-expressive"
-    ["󰔎 Fruit Salad (Đa sắc)"]="scheme-fruit-salad"
-    ["󰗊 Rainbow (Cầu vồng)"]="scheme-rainbow"
-    ["󰵈 Vibrant (Sống động)"]="scheme-vibrant"
-    ["󰅟 Neutral (Trung tính)"]="scheme-neutral"
-    ["󰄰 Monochrome (Đơn sắc)"]="scheme-monochrome"
-)
+# declare -A SCHEMES
+# SCHEMES=(
+#     ["󰏘 Tonal Spot (Cân bằng)"]="scheme-tonal-spot"
+#     ["󰃟 Expressive (Rực rỡ)"]="scheme-expressive"
+#     ["󰔎 Fruit Salad (Đa sắc)"]="scheme-fruit-salad"
+#     ["󰗊 Rainbow (Cầu vồng)"]="scheme-rainbow"
+#     ["󰵈 Vibrant (Sống động)"]="scheme-vibrant"
+#     ["󰅟 Neutral (Trung tính)"]="scheme-neutral"
+#     ["󰄰 Monochrome (Đơn sắc)"]="scheme-monochrome"
+# )
 
 # Create Rofi menu to pick the STYLE
-CHOICE=$(printf "%s\n" "${!SCHEMES[@]}" | rofi -dmenu -i -p "󰏘 Chọn phong cách màu" -config "~/.config/rofi/config.rasi")
+# CHOICE=$(printf "%s\n" "${!SCHEMES[@]}" | rofi -dmenu -i -p "󰏘 Chọn phong cách màu" -config "~/.config/rofi/config.rasi")
 
 # If user cancels, exit
-if [ -z "$CHOICE" ]; then
-    exit 0
-fi
+# if [ -z "$CHOICE" ]; then
+#     exit 0
+# fi
 
-SELECTED_TYPE=${SCHEMES[$CHOICE]}
+# SELECTED_TYPE=${SCHEMES[$CHOICE]}
+SELECTED_TYPE="${1:-scheme-tonal-spot}"
 
 echo "Generating $SELECTED_TYPE from: $WALLPAPER"
 
 # Run Matugen
-# --quiet: no terminal prompts
-# --source-color-index 0: auto-pick the best dominant color
+# --show-colors: show the generated color palette in terminal
 if command -v matugen >/dev/null; then
-    matugen --quiet image "$WALLPAPER" -m dark -t "$SELECTED_TYPE" --source-color-index 0
+    matugen --show-colors image "$WALLPAPER" -m dark -t "$SELECTED_TYPE"
     
     # Reload Waybar CSS
     pkill -USR2 waybar
     
     # Send notification
     if command -v notify-send >/dev/null; then
-        notify-send "Matugen" "Đã áp dụng phong cách $CHOICE"
+        notify-send "Matugen" "Đã áp dụng phong cách $SELECTED_TYPE"
     fi
 else
     echo "Error: matugen not found."
