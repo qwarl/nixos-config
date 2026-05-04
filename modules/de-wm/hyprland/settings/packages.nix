@@ -20,6 +20,8 @@
     xdg-utils
 
     swaynotificationcenter
+    hyprpaper
+    hyprlock
     nvd
     libnotify
   ];

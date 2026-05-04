@@ -39,9 +39,11 @@
     };
   };
 
-  xdg.configFile."hypr/keybinds.conf".source = config.lib.file.mkOutOfStoreSymlink "/mnt/common/nixos/modules/de-wm/hyprland/hypr/keybinds.conf";
-  xdg.configFile."hypr/workspaces.conf".source = config.lib.file.mkOutOfStoreSymlink "/mnt/common/nixos/modules/de-wm/hyprland/hypr/workspaces.conf";
-  xdg.configFile."hypr/general.conf".source = config.lib.file.mkOutOfStoreSymlink "/mnt/common/nixos/modules/de-wm/hyprland/hypr/general.conf";
-  xdg.configFile."hypr/startup.conf".source = config.lib.file.mkOutOfStoreSymlink "/mnt/common/nixos/modules/de-wm/hyprland/hypr/startup.conf";
-  xdg.configFile."hypr/windowrules.conf".source = config.lib.file.mkOutOfStoreSymlink "/mnt/common/nixos/modules/de-wm/hyprland/hypr/windowrules.conf";
+  xdg.configFile."hypr/keybinds.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/hypr/keybinds.conf";
+  xdg.configFile."hypr/workspaces.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/hypr/workspaces.conf";
+  xdg.configFile."hypr/general.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/hypr/general.conf";
+  xdg.configFile."hypr/startup.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/hypr/startup.conf";
+  xdg.configFile."hypr/windowrules.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/hypr/windowrules.conf";
+  xdg.configFile."hypr/hyprpaper.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/hypr/hyprpaper.conf";
+  xdg.configFile."hypr/hyprlock.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE_PATH}/modules/de-wm/hyprland/hypr/hyprlock.conf";
 }
