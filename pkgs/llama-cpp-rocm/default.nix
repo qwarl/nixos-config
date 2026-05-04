@@ -6,16 +6,16 @@
   blasSupport = true;
 }).overrideAttrs
   (old: rec {
-    version = "8855";
+    version = "8967";
 
     src = pkgs.fetchFromGitHub {
       owner = "ggml-org";
       repo = "llama.cpp";
       rev = "b${version}";
-      hash = "sha256-idPlkb794dyVrFw/0fl/GoDpRGBYgn7yTS9uOitKuM4=";
+      hash = "sha256-WLbEkHk73S4IZg8aNpugApE3p2xzJAOZeBBesR+UKQU=";
     };
 
-    npmDepsHash = "sha256-RAFtsbBGBjteCt5yXhrmHL39rIDJMCFBETgzId2eRRk=";
+    npmDepsHash = "sha256-iYJB0z2YHG8OzEA9EwHUZrDa5obr5m2sbnIH+of28o0=";
 
     cmakeFlags = (old.cmakeFlags or [ ]) ++ [
       "-DGGML_HIP=ON"

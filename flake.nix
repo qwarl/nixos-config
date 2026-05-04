@@ -39,9 +39,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    llama-cpp-rocm = {
-      url = "path:./pkgs/llama-cpp-rocm";
-    };
+    # llama-cpp-rocm = {
+    #   url = "path:./pkgs/llama-cpp-rocm";
+    # };
   };
 
   outputs =
@@ -78,7 +78,7 @@
       common-modules = [
         {
           nixpkgs.overlays = [
-            overlays.additions
+            # overlays.additions
             overlays.modifications
           ];
         }
@@ -87,79 +87,84 @@
     {
       nixosConfigurations = {
         vm = nixpkgs.lib.nixosSystem {
-          inherit system;
           specialArgs = { inherit inputs info; };
 
           modules = [
+            { nixpkgs.hostPlatform = system; }
             ./hosts/vm/configuration.nix
             home-manager.nixosModules.home-manager
 
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.sharedModules = [ plasma-manager.homeModules.plasma-manager ];
+              home-manager.sharedModules = [
+                plasma-manager.homeModules.plasma-manager
+                inputs.sops-nix.homeManagerModules.sops
+              ];
               home-manager.users.quan = import ./modules/users/quan.nix;
               home-manager.extraSpecialArgs = { inherit inputs info; };
             }
           ];
         };
         pc = nixpkgs.lib.nixosSystem {
-          inherit system;
           specialArgs = { inherit inputs info; };
 
-          modules = common-modules ++ [
-            ./hosts/pc/configuration.nix
+          modules =
+            common-modules ++
+            [
+              { nixpkgs.hostPlatform = system; }
+              ./hosts/pc/configuration.nix
 
-            home-manager.nixosModules.home-manager
+              home-manager.nixosModules.home-manager
 
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.sharedModules = [
-                inputs.sops-nix.homeManagerModules.sops
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.backupFileExtension = "backup";
+                home-manager.sharedModules = [
+                  inputs.sops-nix.homeManagerModules.sops
 
-                {
-                  imports = [
-                    ./modules/pc/home
-                    ./modules/shared/home-manager
-                  ];
+                  {
+                    imports = [
+                      ./modules/pc/home
+                      ./modules/shared/home-manager
+                    ];
 
-                  batMod = true;
-                  ezaMod = true;
-                  fdMod = true;
-                  fontsMod = true;
-                  fzfMod = true;
-                  ghMod = true;
-                  gitMod = true;
-                  mpvMod = true;
-                  neovimMod = true;
-                  ripgrepMod = true;
-                  tmuxMod = true;
-                  vscodeMod = true;
-                  weztermMod = true;
-                  yaziMod = true;
-                  zedMod = true;
-                  zoxideMod = true;
-                  zshMod = true;
-                }
-              ];
-              home-manager.users."kde" = {
-                imports = [
-                  ./modules/users/kde.nix
-                  #   inputs.plasma-manager.homeModules.plasma-manager
+                    batMod = true;
+                    ezaMod = true;
+                    fdMod = true;
+                    fontsMod = true;
+                    fzfMod = true;
+                    ghMod = true;
+                    gitMod = true;
+                    mpvMod = true;
+                    neovimMod = true;
+                    ripgrepMod = true;
+                    tmuxMod = true;
+                    vscodeMod = true;
+                    weztermMod = true;
+                    yaziMod = true;
+                    zedMod = true;
+                    zoxideMod = true;
+                    zshMod = true;
+                  }
                 ];
-              };
-              home-manager.users."hyprland" = import ./modules/users/hyprland.nix;
-              home-manager.extraSpecialArgs = { inherit inputs info; };
-            }
-          ];
+                home-manager.users."kde" = {
+                  imports = [
+                    ./modules/users/kde.nix
+                    #   inputs.plasma-manager.homeModules.plasma-manager
+                  ];
+                };
+                home-manager.users."hyprland" = import ./modules/users/hyprland.nix;
+                home-manager.extraSpecialArgs = { inherit inputs info; };
+              }
+            ];
         };
         server = nixpkgs.lib.nixosSystem {
-          inherit system;
           specialArgs = { inherit inputs info; };
 
           modules = [
+            { nixpkgs.hostPlatform = system; }
             ./hosts/server/configuration.nix
             home-manager.nixosModules.home-manager
 

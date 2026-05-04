@@ -1,8 +1,9 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
   home.packages = with pkgs; [
     btop-rocm
+    calibre
     deluge
     dust
     exiftool
@@ -18,7 +19,7 @@
     jq
     lazygit
     libreoffice
-    # llama-cpp-rocm
+    llama-cpp-rocm
     lm_sensors
     lutris
     mediainfo
@@ -32,7 +33,6 @@
     poppler
     python314
     qbittorrent
-    qwen-code
     rar
     resvg
     rustdesk
@@ -49,6 +49,5 @@
     wl-clipboard
     yt-dlp
     zip
-    llama-cpp-rocm
   ];
 }
