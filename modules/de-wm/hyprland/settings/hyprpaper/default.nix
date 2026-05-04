@@ -7,7 +7,7 @@
       wallpaper = [
         {
           monitor = "";
-          path = "/mnt/common/nixos/modules/de-wm/hyprland/wallpapers/daniil-silantev-3pW91fGAKiE-unsplash.jpg";
+          path = "/mnt/common/nixos/modules/de-wm/hyprland/wallpapers/daniil-silantev-ou_9KZ6BJ-0-unsplash.jpg";
           fit_mode = "cover";
         }
       ];

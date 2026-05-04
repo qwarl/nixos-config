@@ -1,8 +1,8 @@
 { pkgs, info, ... }:
 {
   imports = [
-    ../../modules/vm/home/packages.nix
-    ../../modules/shared/home-manager/packages
+    ../../modules/vm/home
+    ../../modules/shared/home-manager
   ];
   home = {
     homeDirectory = "/home/quan";

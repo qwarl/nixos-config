@@ -7,5 +7,6 @@
     ./shell.nix
     ./tailscale.nix
     ./warp.nix
+    ./cachix.nix
   ];
 }
