@@ -5,6 +5,7 @@
     file
     fastfetch
     gcc
+    gemini-cli
     go # for hyprls installs
     jq
     lazygit

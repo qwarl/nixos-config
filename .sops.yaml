@@ -2,4 +2,5 @@ creation_rules:
   - path_regex: modules/shared/secrets\.yaml$
     key_groups:
       - age:
-          - age1hvmx0uevw9slx7ulpvzcxp05zwcjtexxqchmhku3u0hh8fnrf96sq0d2fh
+          - age1hvmx0uevw9slx7ulpvzcxp05zwcjtexxqchmhku3u0hh8fnrf96sq0d2fh # Key cá nhân của bạn
+          - age1qkddrrqm2m6e62jxl8lgmg7dv29f5agay5zz5vdy9p4wxj5p6prsa5gxlw # Key của Server (vừa quét được)

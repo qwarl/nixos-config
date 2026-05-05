@@ -1,12 +1,12 @@
-{ pkgs, info,... }:
+{pkgs, info, inputs, ...}:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../../modules/shared/system
-      ../../modules/server/system
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/shared/system
+    ../../modules/server/system
+    inputs.sops-nix.nixosModules.sops
+  ];
 
   # Bootloader.
   boot = {
@@ -68,8 +68,11 @@
   users.users.server = {
     isNormalUser = true;
     description = "quan";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
+    packages = with pkgs; [ ];
   };
 
   # Allow unfree packages
@@ -78,27 +81,24 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  git
+    git
+    wireguard-tools # Thêm công cụ để debug
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
+  # Secrets configuration
+  sops.secrets.wireguard_server_key = {
+    sopsFile = ../../modules/shared/secrets.yaml;
+  };
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -114,5 +114,24 @@
     enable = true;
     users = [ "server" ];
   };
+  userCustom.modules.firewall = {
+    enable = true;
+    allowedTCPPorts = [22 80 443 53 853];
+    allowedUDPPorts = [53 853 51820]; # Mở port cho WireGuard 51820
+  };
   nixLd = true;
+  userCustom.modules.wireguard = {
+    enable = true;
+    externalInterface = "wlo2"; # Đã cập nhật từ file cũ của bạn
+    privateKeyFile = "/run/secrets/wireguard_server_key"; # Khớp với sops bên trên
+
+    # AdGuard Home của bạn sẽ tự áp dụng vì dns mặc định trỏ về 10.13.13.1
+    peers = [
+      {
+        # Cập nhật Public Key của client vào đây
+        publicKey = "F/ev8Byi3o0tFLHAFGg1WVi2aSkVwzjYfQLfIcWQzRg=";
+        allowedIPs = [ "10.13.13.2/32" ];
+      }
+    ];
+  };
 }
