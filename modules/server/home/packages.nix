@@ -14,6 +14,7 @@
     nodejs_25
     nixfmt
     python314
+    qbittorrent-nox
     rustup
     tokei
     tree-sitter
